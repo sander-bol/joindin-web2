@@ -251,7 +251,7 @@ class TalkApi extends BaseApi
      */
     public function addTalk($talksUri, $data)
     {
-        array_walk($data, function (&$value) {
+        array_walk($data, function (&$value): void {
             if ($value instanceof \DateTimeInterface) {
                 $value = $value->format('Y-m-d H:i');
             }
@@ -259,7 +259,7 @@ class TalkApi extends BaseApi
 
         // ensure that speakers is a list of names with no empty ones
         if (isset($data['speakers'])) {
-            array_walk($data['speakers'], function (&$value) {
+            array_walk($data['speakers'], function (&$value): void {
                 if (is_array($value)) {
                     $value = current($value);
                 }
@@ -296,7 +296,7 @@ class TalkApi extends BaseApi
      */
     public function editTalk($talkUri, $data)
     {
-        array_walk($data, function (&$value) {
+        array_walk($data, function (&$value): void {
             if ($value instanceof \DateTimeInterface) {
                 $value = $value->format('Y-m-d H:i');
             }
@@ -304,7 +304,7 @@ class TalkApi extends BaseApi
 
         // ensure that speakers is a list of names with no empty ones
         if (isset($data['speakers'])) {
-            array_walk($data['speakers'], function (&$value) {
+            array_walk($data['speakers'], function (&$value): void {
                 if (is_array($value)) {
                     $value = current($value);
                 }
