@@ -992,8 +992,6 @@ class EventController extends BaseController
 
     public function removeHost($friendly_name, $host_name): void
     {
-        $request = $this->application->request();
-
         $eventApi = $this->getEventApi();
         $event    = $eventApi->getByFriendlyUrl($friendly_name);
         if (! $event) {
@@ -1049,8 +1047,6 @@ class EventController extends BaseController
         if (! $event) {
             $this->redirectToListPage();
         }
-
-        $errors = [];
 
         /** @var FormFactoryInterface $factory */
         $factory = $this->application->formFactory;
@@ -1292,7 +1288,7 @@ class EventController extends BaseController
      */
     public function eventImportCsv($eventSlug): void
     {
-        $config  = $this->application->config('oauth');
+        $this->application->config('oauth');
         $request = $this->application->request();
 
         /** @var FormFactoryInterface $factory */
@@ -1357,7 +1353,7 @@ class EventController extends BaseController
         $this->render('Event/import-csv.html.twig', ['form' => $form->createView()]);
     }
 
-    
+
     private function getTalkSlugsForTalkComments(array $comments, EventEntity $event): array
     {
         $slugs = $this->getTalkSlugsFromDb($comments);
@@ -1370,7 +1366,7 @@ class EventController extends BaseController
         return $slugs;
     }
 
-    
+
     private function getTalkSlugsFromDb(array $comments): array
     {
         $talkDb  = $this->getTalkDb();
