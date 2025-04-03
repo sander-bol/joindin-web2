@@ -238,7 +238,7 @@ class SearchController extends BaseController
      *
      * @return array An array of event entities where event uri is the key
      */
-    private function getEventInfoForTalks(array $talks)
+    private function getEventInfoForTalks(array $talks): array
     {
         $eventApi = $this->getEventApi();
 
@@ -256,7 +256,7 @@ class SearchController extends BaseController
      *
      * @return array
      */
-    private function combinePaginationData(array $paginations)
+    private function combinePaginationData(array $paginations): array
     {
         $result = [
             'count' => 0,

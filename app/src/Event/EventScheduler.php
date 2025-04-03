@@ -33,7 +33,7 @@ class EventScheduler
      * @param EventEntity $event
      * @return array
      */
-    public function getScheduleData(EventEntity $event)
+    public function getScheduleData(EventEntity $event): array
     {
         $talks     = $this->getTalks($event->getTalksUri().'?start=0&resultsperpage=1000');
         $eventDays = $this->getEventDays($talks);
@@ -60,7 +60,7 @@ class EventScheduler
      * @param array $talks
      * @return array Array of EventSchedulerDay objects
      */
-    public function getEventDays($talks)
+    public function getEventDays($talks): array
     {
         if (empty($talks) || empty($talks['talks'])) {
             return [];
@@ -94,7 +94,7 @@ class EventScheduler
      * @param TalkEntity[] $talks
      * @return array
      */
-    protected function organiseTalksByDayAndTime($talks)
+    protected function organiseTalksByDayAndTime($talks): array
     {
         $talksByDay = [];
 
@@ -123,7 +123,7 @@ class EventScheduler
      * @param array $talks
      * @return array
      */
-    protected function getTracksByDay($talks)
+    protected function getTracksByDay($talks): array
     {
         $tracksByDay = [];
 

@@ -1381,7 +1381,7 @@ class EventController extends BaseController
      *
      * @return array
      */
-    private function getTalkSlugsForTalkComments(array $comments, EventEntity $event)
+    private function getTalkSlugsForTalkComments(array $comments, EventEntity $event): array
     {
         $slugs = $this->getTalkSlugsFromDb($comments);
 
@@ -1398,7 +1398,7 @@ class EventController extends BaseController
      *
      * @return array
      */
-    private function getTalkSlugsFromDb(array $comments)
+    private function getTalkSlugsFromDb(array $comments): array
     {
         $talkDb  = $this->getTalkDb();
         $slugs   = [];
@@ -1413,8 +1413,9 @@ class EventController extends BaseController
 
     /**
      * @param EventEntity $event
+     * @return mixed[]
      */
-    private function getTalkSlugsFromApi(EventEntity $event)
+    private function getTalkSlugsFromApi(EventEntity $event): array
     {
         $talkApi = $this->getTalkApi();
 
