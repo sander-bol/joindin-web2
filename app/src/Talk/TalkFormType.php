@@ -133,7 +133,7 @@ class TalkFormType extends AbstractType
                         new Assert\NotBlank(),
                         new Assert\Type('integer'),
                         new Assert\Regex([
-                            'pattern' => '/^[0-9]\d*$/',
+                            'pattern' => '/^\d\d*$/',
                             'message' => 'Value must be a positive number.'
                         ]),
                     ],

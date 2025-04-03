@@ -26,12 +26,11 @@ class SearchController extends BaseController
     /**
      * @var integer The number of search results to show per page
      */
-    protected $itemsPerPage;
+    protected $itemsPerPage = 10;
 
     public function __construct(Slim $app)
     {
         parent::__construct($app);
-        $this->itemsPerPage = 10;
     }
 
     protected function defineRoutes(Slim $app)
@@ -76,7 +75,7 @@ class SearchController extends BaseController
             ? 1
             : $this->application->request()->get('page');
 
-        if (!empty($keyword) || !empty($tag)) {
+        if ($keyword !== null && $keyword !== '' && $keyword !== '0' || $tag !== null && $tag !== '' && $tag !== '0') {
             $events = $this->searchEventsByTitleAndTag($page, $keyword, $tag);
         }
 
@@ -107,7 +106,7 @@ class SearchController extends BaseController
             ? 1
             : $this->application->request()->get('page');
 
-        if (!empty($keyword)) {
+        if ($keyword !== null && $keyword !== '' && $keyword !== '0') {
             $events = $this->searchEventsByTitleAndTag($page, $keyword);
             $talks  = $this->searchTalksByTitle($page, $keyword);
             $users  = $this->searchUsersByKeyword($page, $keyword);
@@ -145,11 +144,11 @@ class SearchController extends BaseController
     {
         $apiQueryParams = [];
 
-        if (!empty($keyword)) {
+        if ($keyword !== null && $keyword !== '' && $keyword !== '0') {
             $apiQueryParams['title'] = $keyword;
         }
 
-        if (!empty($tag)) {
+        if ($tag !== null && $tag !== '' && $tag !== '0') {
             $apiQueryParams['tags'] = $tag;
         }
 

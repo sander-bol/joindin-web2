@@ -833,5 +833,6 @@ class UserController extends BaseController
                 ['username' => $user->getUsername()]
             )
         );
+        return null;
     }
 }

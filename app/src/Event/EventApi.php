@@ -130,7 +130,7 @@ class EventApi extends BaseApi
     public function getEventById($eventId): ?EventEntity
     {
         $eventId = (int)$eventId;
-        if (!$eventId) {
+        if ($eventId === 0) {
             return null;
         }
 
@@ -252,10 +252,8 @@ class EventApi extends BaseApi
             if (isset($data[$dateField]) && $data[$dateField] instanceof DateTime) {
                 $data[$dateField] = $data[$dateField]->format('Y-m-d');
             }
-            if (isset($data[$dateField])) {
-                if (!strtotime($data[$dateField])) {
-                    unset($data[$dateField]);
-                }
+            if (isset($data[$dateField]) && !strtotime($data[$dateField])) {
+                unset($data[$dateField]);
             }
         }
 
@@ -297,10 +295,8 @@ class EventApi extends BaseApi
             if (isset($data[$dateField]) && $data[$dateField] instanceof DateTime) {
                 $data[$dateField] = $data[$dateField]->format('c');
             }
-            if (isset($data[$dateField])) {
-                if (!strtotime($data[$dateField])) {
-                    unset($data[$dateField]);
-                }
+            if (isset($data[$dateField]) && !strtotime($data[$dateField])) {
+                unset($data[$dateField]);
             }
         }
 
@@ -401,7 +397,7 @@ class EventApi extends BaseApi
             $body = $e->getResponse()->getBody();
             error_log($e->getMessage());
             error_log(json_decode($body)[0]);
-            throw new Exception(json_decode($body)[0]);
+            throw new Exception(json_decode($body)[0], $e->getCode(), $e);
         }
 
         if ($response->getStatusCode() == 201) {

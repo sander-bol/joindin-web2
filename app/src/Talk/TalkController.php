@@ -89,6 +89,7 @@ class TalkController extends BaseController
                 'unclaimed'   => $unclaimed,
             ]
         );
+        return null;
     }
 
     public function editTalk($eventSlug, $talkSlug): void
@@ -119,7 +120,7 @@ class TalkController extends BaseController
 
         $isAdmin   = $event->getCanEdit();
         $isSpeaker = $talk->isSpeaker($_SESSION['user']->getUri());
-        if (!($isAdmin || $isSpeaker)) {
+        if (!$isAdmin && !$isSpeaker) {
             $this->application->flash('error', "You do not have permission to do this.");
 
             $talkUrl = $this->application->urlFor('talk', ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
@@ -333,6 +334,7 @@ class TalkController extends BaseController
                 ['eventSlug' => $event['url_friendly_name'], 'talkSlug' => $talk['slug']]
             )
         );
+        return null;
     }
 
     public function quickById($talkId)
@@ -362,6 +364,7 @@ class TalkController extends BaseController
                 ['eventSlug' => $event['url_friendly_name'], 'talkSlug' => $talk->getUrlFriendlyTalkTitle()]
             )
         );
+        return null;
     }
 
     public function addComment($eventSlug, $talkSlug): void
@@ -371,10 +374,10 @@ class TalkController extends BaseController
         $rating  = (int) $request->post('rating');
         $url     = $this->application->urlFor("talk", ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
 
-        if ($comment == '' || $rating == 0) {
+        if ($comment === '' || $rating == 0) {
             $this->application->flash('error', 'Please provide a comment and rating');
 
-            if ($comment != '') {
+            if ($comment !== '') {
                 //If the user provided a comment but no rating, send the comment back
                 $this->application->flash('comment', $comment);
             } else {

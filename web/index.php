@@ -6,12 +6,12 @@
 if (in_array(substr($_SERVER['REQUEST_URI'], -4), ['.css', '.jpg', '.png'])) {
     return false;
 }
-if (!ini_get('date.timezone')) {
+if (ini_get('date.timezone') === '' || ini_get('date.timezone') === '0') {
     date_default_timezone_set('UTC');
 }
 
 // include dependencies
-require '../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 session_set_cookie_params(60*60*24*7); // One week cookie
 session_cache_limiter(false);

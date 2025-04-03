@@ -38,7 +38,7 @@ final class FunctionsExtension extends Twig_Extension
                 $size = ((int)$size == 0) ? 20 : (int)$size;
 
                 $url = 'https://secure.gravatar.com/avatar/' . $email_hash . '?d=mm&s=' . $size;
-                if (empty($email_hash)) {
+                if ($email_hash === '' || $email_hash === '0') {
                     $url .= '&f=y';
                 }
 
@@ -119,7 +119,7 @@ final class FunctionsExtension extends Twig_Extension
                 $hours   = (int)($duration / 60);
                 $minutes = $duration - ($hours * 60);
 
-                if (!$minutes) {
+                if ($minutes === 0) {
                     return sprintf("%d %s", $hours, 'hour');
                 }
 
@@ -140,7 +140,7 @@ final class FunctionsExtension extends Twig_Extension
                 $params      = $app->request->get();
                 $queryString = http_build_query($params);
 
-                if ($queryString) {
+                if ($queryString !== '' && $queryString !== '0') {
                     return $request->getPath() . urlencode('?' . $queryString);
                 } else {
                     return $request->getPath();
