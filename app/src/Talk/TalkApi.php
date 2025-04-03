@@ -108,7 +108,7 @@ class TalkApi extends BaseApi
     public function getTalk($talk_uri, $verbose = false)
     {
         if ($verbose) {
-            $talk_uri = $talk_uri . '?verbose=yes';
+            $talk_uri .= '?verbose=yes';
         }
 
         $collection = (array)json_decode($this->apiGet($talk_uri));
