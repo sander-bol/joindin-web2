@@ -49,7 +49,7 @@ class SearchController extends BaseController
      * @param string $keyword
      * @return string|null
      */
-    protected function sanitizeKeyword($keyword)
+    protected function sanitizeKeyword($keyword): ?string
     {
         return preg_replace("/[^A-Za-z0-9-_[:space:]]/", '', $keyword);
     }
@@ -60,7 +60,7 @@ class SearchController extends BaseController
      * @param string $tag
      * @return string|null
      */
-    protected function sanitizeTag($tag)
+    protected function sanitizeTag($tag): ?string
     {
         return preg_replace("/[^A-Za-z0-9]/", '', $tag);
     }
@@ -177,7 +177,7 @@ class SearchController extends BaseController
      *
      * @return array
      */
-    private function searchTalksByTitle($page, $keyword)
+    private function searchTalksByTitle($page, $keyword): array
     {
         $apiQueryParams = [
             'title'          => $keyword,
@@ -197,7 +197,7 @@ class SearchController extends BaseController
      *
      * @return array
      */
-    private function searchUsersByKeyword($page, $keyword)
+    private function searchUsersByKeyword($page, $keyword): array
     {
         $apiQueryParams = [
             'keyword'        => $keyword,

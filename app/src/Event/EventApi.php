@@ -39,7 +39,7 @@ class EventApi extends BaseApi
      *
      * @return array
      */
-    public function getEvents($limit = 10, $start = 1, $filter = null, $verbose = false, array $queryParams = [])
+    public function getEvents($limit = 10, $start = 1, $filter = null, $verbose = false, array $queryParams = []): array
     {
         $url                           = $this->baseApiUrl . '/v2.1/events';
         $queryParams['resultsperpage'] = $limit;
