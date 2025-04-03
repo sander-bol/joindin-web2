@@ -27,10 +27,7 @@ class UsernameInputFormType extends AbstractType
      * This method is automatically called by the Form Factory builder and does not need
      * to be called manually, see the class description for usage information.
      *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
      *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

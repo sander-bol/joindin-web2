@@ -13,9 +13,6 @@ final class FunctionsExtension extends Twig_Extension
      */
     private $app;
 
-    /**
-     * @param Slim $app
-     */
     public function __construct(Slim $app)
     {
         $this->app = $app;

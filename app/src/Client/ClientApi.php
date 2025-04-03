@@ -8,8 +8,6 @@ class ClientApi extends BaseApi
 {
     /**
      * Get all clients associated with the current user
-     *
-     * @return array
      */
     public function getCollection($queryParams): array
     {
@@ -34,8 +32,6 @@ class ClientApi extends BaseApi
 
     /**
      * Get a specified client associated with the current user
-     *
-     * @return ClientEntity
      */
     public function getById($id, $queryParams = ['verbose' => 'yes']): \Client\ClientEntity
     {
@@ -55,12 +51,10 @@ class ClientApi extends BaseApi
     /**
      * Submits a new client to the API and returns it
      *
-     * @param array $data
      *
      * @throws \Exception if a status code other than 201 is returned.
      * @see ClientFormType::buildForm() for a list of supported fields in the $data array
      * and their constraints.
-     * @return ClientEntity
      */
     public function submit(array $data): \Client\ClientEntity
     {
@@ -86,12 +80,10 @@ class ClientApi extends BaseApi
      * Submits data to edit an existing client to the API and returns it
      *
      * @param string $clientUri The API-URI for the client
-     * @param array  $data
      *
      * @throws \Exception if a status code other than 201 is returned.
      * @see ClientFormType::buildForm() for a list of supported fields in the $data array
      * and their constraints.
-     * @return ClientEntity
      */
     public function editClient($clientUri, array $data): \Client\ClientEntity
     {
@@ -114,10 +106,7 @@ class ClientApi extends BaseApi
     }
 
     /**
-     * @param string $clientUri
-     *
      * @throws \Exception
-     * @return bool
      */
     public function deleteClient(string $clientUri): bool
     {

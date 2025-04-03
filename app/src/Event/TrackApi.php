@@ -24,10 +24,8 @@ class TrackApi extends BaseApi
 
     /**
      * Return the list of tracks in a format suitable for a choice list
-     *
-     * @return array
      */
-    public function getTracksChoiceList($url): array
+    public function getTracksChoiceList(string $url): array
     {
         $tracks = [];
 
@@ -89,8 +87,6 @@ class TrackApi extends BaseApi
 
     /**
      * Delete a track
-     *
-     * @param string $trackUri
      */
     public function deleteTrack(string $trackUri): bool
     {

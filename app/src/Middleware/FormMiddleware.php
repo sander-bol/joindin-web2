@@ -66,8 +66,6 @@ class FormMiddleware extends Middleware
      *   $formTypeDefinition = new EventFormType();
      *   $form               = $factory->create($formTypeDefinition);
      * ```
-     *
-     * @return void
      */
     public function call(): void
     {
@@ -142,9 +140,7 @@ class FormMiddleware extends Middleware
     /**
      * Adds a loader to Twig pointing to the location of the default templates for forms.
      *
-     * @param \Twig_Loader_Chain $loader
      *
-     * @return void
      */
     private function addFormTemplatesFolderToLoader(\Twig_Loader_Chain $loader): void
     {
@@ -156,9 +152,7 @@ class FormMiddleware extends Middleware
     /**
      * Adds Twig rendering capabilities to the form and use the given template as default basis.
      *
-     * @param string $formLayoutTemplate
      *
-     * @return FormExtension
      */
     private function createFormTwigExtension(string $formLayoutTemplate): \Symfony\Bridge\Twig\Extension\FormExtension
     {
@@ -167,8 +161,6 @@ class FormMiddleware extends Middleware
 
     /**
      * Initializes a new 'translator' service with array and XLIFF translation capabilities into the Slim Container.
-     *
-     * @return void
      */
     private function initializeTranslator(): void
     {
@@ -190,7 +182,6 @@ class FormMiddleware extends Middleware
     /**
      * Adds validation capabilities to the form, including translations for the messages.
      *
-     * @param FormFactoryBuilder $builder
      *
      * @return void
      */

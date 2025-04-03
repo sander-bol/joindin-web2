@@ -68,10 +68,7 @@ class TalkFormType extends AbstractType
     /**
      * Adds fields with their types and validation constraints to this definition.
      *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
      *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

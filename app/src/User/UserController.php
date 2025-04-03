@@ -49,8 +49,6 @@ class UserController extends BaseController
 
     /**
      * Login page
-     *
-     * @return void
      */
     public function login(): void
     {
@@ -79,8 +77,6 @@ class UserController extends BaseController
 
     /**
      * Registration page
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -142,8 +138,6 @@ class UserController extends BaseController
 
     /**
      * Log out
-     *
-     * @return void
      */
     public function logout(): void
     {
@@ -162,8 +156,6 @@ class UserController extends BaseController
 
     /**
      * Accept a user's email verification
-     *
-     * @return void
      */
     public function verification(): void
     {
@@ -229,7 +221,6 @@ class UserController extends BaseController
      * User profile page
      *
      * @param  string $username User's username
-     * @return void
      */
     public function profile($username): void
     {
@@ -589,7 +580,6 @@ class UserController extends BaseController
      * User profile edit page
      *
      * @param  string $username User's username
-     * @return void
      */
     public function profileEdit($username): void
     {
@@ -740,8 +730,6 @@ class UserController extends BaseController
 
     /**
      * Link in password reset email lands here
-     *
-     * @return void
      */
     public function newPassword(): void
     {

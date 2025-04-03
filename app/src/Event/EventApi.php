@@ -36,8 +36,6 @@ class EventApi extends BaseApi
      * @param string  $filter      Filter to apply
      * @param bool    $verbose     get verbose result
      * @param array   $queryParams Additional query params as key => value pairs
-     *
-     * @return array
      */
     public function getEvents($limit = 10, $start = 1, $filter = null, $verbose = false, array $queryParams = []): array
     {
@@ -128,7 +126,6 @@ class EventApi extends BaseApi
      * Get an event by id
      *
      * @param integer $eventId
-     * @return EventEntity|null
      */
     public function getEventById($eventId): ?EventEntity
     {
@@ -144,7 +141,6 @@ class EventApi extends BaseApi
 
     /**
      * Get comments for given event
-     * @param string $comment_uri
      * @param bool $verbose
      * @return EventCommentEntity[]
      */
@@ -215,7 +211,6 @@ class EventApi extends BaseApi
 
     /**
      * Get attendees for given event
-     * @param string $attendees_uri
      * @param int $limit
      * @param bool $verbose
      * @return UserEntity[]
@@ -242,13 +237,11 @@ class EventApi extends BaseApi
     /**
      * Submits a new event to the API and returns it or null if it is pending acceptance.
      *
-     * @param array $data
      *
      * @throws Exception if a status code other than 201 is returned.
      *
      * @see EventFormType::buildForm() for a list of supported fields in the $data array
      * and their constraints.
-     *
      * @return EventEntity|null
      */
     public function submit(array $data)
@@ -291,7 +284,6 @@ class EventApi extends BaseApi
      *
      * If something happened NULL is returned
      *
-     * @param array $data
      *
      * @throws Exception if a status code other than 201 is returned.
      * @see EventFormType::buildForm() for a list of supported fields in the $data array
@@ -328,7 +320,6 @@ class EventApi extends BaseApi
      *
      * If something happened NULL is returned
      *
-     * @param array $data
      *
      * @throws Exception if a status code other than 201 is returned.
      * @see EventHostFormType::buildForm() for a list of supported fields in the $data array
@@ -353,7 +344,6 @@ class EventApi extends BaseApi
      *
      * If something happened NULL is returned
      *
-     * @param array $data
      *
      * @throws Exception if a status code other than 201 is returned.
      * @see EventHostFormType::buildForm() for a list of supported fields in the $data array
@@ -377,7 +367,6 @@ class EventApi extends BaseApi
      *
      * @param  string $imagesUri event's images_uri
      * @param  string $fileName  the (temp) file to send
-     * @return boolean
      */
     public function uploadIcon($imagesUri, $fileName): bool
     {
@@ -430,9 +419,7 @@ class EventApi extends BaseApi
      *
      * @param string $uri API Url to query for one or more events. Either a
      *                    listing can be retrieved or a single event.
-     * @param array  $queryParams
      *
-     * @return array
      */
     public function getCollection(string $uri, array $queryParams = []): array
     {
@@ -462,11 +449,9 @@ class EventApi extends BaseApi
     /**
      * Get comments for all the talks of a given event
      *
-     * @param string $comment_uri
      * @param int   $limit
      * @param int   $start
      * @param bool  $verbose
-     *
      * @return array An array with two keys:
      *              'comments' holds the actual talk comment entities
      *              'pagination' holds pagination related meta data
@@ -499,7 +484,6 @@ class EventApi extends BaseApi
      * Approve a pending event by POSTing to approval_uri
      *
      * @param  string $approval_uri
-     * @return boolean
      */
     public function approveEvent($approval_uri): bool
     {
@@ -513,9 +497,6 @@ class EventApi extends BaseApi
 
     /**
      * Reject a pending event by DELETEing to approval_uri
-     *
-     * @param  string $approval_uri
-     * @return boolean
      */
     public function rejectEvent(string $approval_uri): bool
     {
@@ -584,8 +565,6 @@ class EventApi extends BaseApi
      * @param string $reported_uri
      * @param string $decision
      * @throws Exception on error
-     *
-     * @return boolean
      */
     public function moderateComment($reported_uri, $decision): bool
     {

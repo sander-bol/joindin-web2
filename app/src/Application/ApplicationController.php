@@ -45,7 +45,6 @@ class ApplicationController extends BaseController
      *
      * @param int $start
      * @param int $perPage
-     * @return array
      */
     public function getCurrentEvents($start, $perPage): array
     {

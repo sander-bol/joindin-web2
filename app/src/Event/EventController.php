@@ -528,8 +528,6 @@ class EventController extends BaseController
 
     /**
      * Action used to display the form with which an event can be submitted and with which a form can be submitted.
-     *
-     * @return void
      */
     public function submit(): void
     {
@@ -570,8 +568,6 @@ class EventController extends BaseController
 
     /**
      * Action used to display a form to edit an event and with which the form can be submitted
-     *
-     * @return void
      */
     public function edit($friendly_name): void
     {
@@ -615,7 +611,6 @@ class EventController extends BaseController
      * Approve or reject a pending event
      *
      * @param  string $friendly_name
-     * @return void
      */
     public function actionPendingEvent($friendly_name): void
     {
@@ -703,7 +698,6 @@ class EventController extends BaseController
      *
      * Should an error occur will this method append an error message to the form's error collection.
      *
-     * @param Form $form
      *
      * @return EventEntity|null|false
      */
@@ -730,7 +724,6 @@ class EventController extends BaseController
      *
      * Should an error occur will this method append an error message to the form's error collection.
      *
-     * @param Form $form
      *
      * @return EventEntity|null|false
      */
@@ -818,8 +811,6 @@ class EventController extends BaseController
 
     /**
      * Redirects the current request to the event listing page.
-     *
-     * @return void
      */
     private function redirectToListPage(): void
     {
@@ -830,11 +821,9 @@ class EventController extends BaseController
      * Redirect the current request to the detail page with the given friendly name / stub.
      *
      * @param string  $friendlyName
-     * @param integer $status
      *
      * @throws Stop request execution is directly ended by this method.
      *
-     * @return void
      */
     private function redirectToDetailPage($friendlyName, int $status = 302): void
     {
@@ -912,7 +901,6 @@ class EventController extends BaseController
      * a comment. Redirects back to the list of reported comments.
      *
      * @param string $friendly_name
-     * @return void
      */
     public function moderateComment($friendly_name): void
     {
@@ -1369,11 +1357,7 @@ class EventController extends BaseController
         $this->render('Event/import-csv.html.twig', ['form' => $form->createView()]);
     }
 
-    /**
-     * @param array $comments
-     *
-     * @return array
-     */
+    
     private function getTalkSlugsForTalkComments(array $comments, EventEntity $event): array
     {
         $slugs = $this->getTalkSlugsFromDb($comments);
@@ -1386,11 +1370,7 @@ class EventController extends BaseController
         return $slugs;
     }
 
-    /**
-     * @param array $comments
-     *
-     * @return array
-     */
+    
     private function getTalkSlugsFromDb(array $comments): array
     {
         $talkDb  = $this->getTalkDb();
@@ -1405,7 +1385,6 @@ class EventController extends BaseController
     }
 
     /**
-     * @param EventEntity $event
      * @return mixed[]
      */
     private function getTalkSlugsFromApi(EventEntity $event): array

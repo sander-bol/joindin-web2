@@ -211,7 +211,6 @@ class ClientController extends BaseController
      *
      * Should an error occur will this method append an error message to the form's error collection.
      *
-     * @param Form $form
      *
      * @return ClientEntity|null|false
      */

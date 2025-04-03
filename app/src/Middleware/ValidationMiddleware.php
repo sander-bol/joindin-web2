@@ -48,8 +48,6 @@ class ValidationMiddleware extends Middleware
      * This validator must only be called if you are not using the forms functionality; when using forms you
      * can use the 'constraints' option of a Field Definition to add validation. See the Symfony documentation
      * for more information.
-     *
-     * @return void
      */
     public function call(): void
     {
@@ -90,9 +88,7 @@ class ValidationMiddleware extends Middleware
      * Adds all messages related to validation to the translator.
      *
      * @param Translator $translator
-     * @param string     $validatorComponentRootFolder
      *
-     * @return void
      */
     private function addTranslations($translator, string $validatorComponentRootFolder): void
     {
@@ -122,8 +118,6 @@ class ValidationMiddleware extends Middleware
 
     /**
      * Returns the folder where the translations for the validator are stored.
-     *
-     * @return string
      */
     private function getTranslationsRootFolder(): string
     {

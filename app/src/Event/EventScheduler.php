@@ -18,8 +18,6 @@ class EventScheduler
 
     /**
      * Constructor
-     *
-     * @param TalkApi $talkApi
      */
     public function __construct(TalkApi $talkApi)
     {
@@ -29,9 +27,6 @@ class EventScheduler
     /**
      * Builds schedule data into an array structure
      * for schedule view
-     *
-     * @param EventEntity $event
-     * @return array
      */
     public function getScheduleData(EventEntity $event): array
     {
@@ -89,7 +84,6 @@ class EventScheduler
      * day
      *
      * @param TalkEntity[] $talks
-     * @return array
      */
     protected function organiseTalksByDayAndTime($talks): array
     {
@@ -118,7 +112,6 @@ class EventScheduler
      * track names by date
      *
      * @param array $talks
-     * @return array
      */
     protected function getTracksByDay($talks): array
     {

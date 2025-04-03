@@ -256,7 +256,6 @@ class UserApi extends BaseApi
      * @see http://joindin.github.io/joindin-api/users.html for a list of supported
      * fields in the $data array
      *
-     * @param array $data
      *
      * @throws \Exception if unsuccessful
      * @return UserEntity
@@ -314,11 +313,9 @@ class UserApi extends BaseApi
     /**
      * Get all users for the specified query params
      *
-     * @param array         $queryParams
      *
      * @throws \Exception   if unable to connect to API
      *
-     * @return array
      */
     public function getCollection(array $queryParams = []): array
     {
