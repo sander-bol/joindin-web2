@@ -100,7 +100,7 @@ class EventApi extends BaseApi
      * @param bool $verbose  Return verbose data?
      * @return EventEntity|bool
      */
-    public function getEvent($event_uri, $verbose = true)
+    public function getEvent(string $event_uri, $verbose = true)
     {
         $params = [];
         if ($verbose) {
@@ -148,7 +148,7 @@ class EventApi extends BaseApi
      * @param bool $verbose
      * @return EventCommentEntity[]
      */
-    public function getComments($comment_uri, $verbose = false): array
+    public function getComments(string $comment_uri, $verbose = false): array
     {
         if ($verbose) {
             $comment_uri .= '?verbose=yes&resultsperpage=0';
@@ -220,7 +220,7 @@ class EventApi extends BaseApi
      * @param bool $verbose
      * @return UserEntity[]
      */
-    public function getAttendees($attendees_uri, $limit = 0, $verbose = false): array
+    public function getAttendees(string $attendees_uri, $limit = 0, $verbose = false): array
     {
         $attendees_uri .= "?resultsperpage={$limit}";
         if ($verbose) {
@@ -434,7 +434,7 @@ class EventApi extends BaseApi
      *
      * @return array
      */
-    public function getCollection($uri, array $queryParams = []): array
+    public function getCollection(string $uri, array $queryParams = []): array
     {
         $events = (array)json_decode($this->apiGet($uri, $queryParams));
         $meta   = array_pop($events);
@@ -471,7 +471,7 @@ class EventApi extends BaseApi
      *              'comments' holds the actual talk comment entities
      *              'pagination' holds pagination related meta data
      */
-    public function getTalkComments($comment_uri, $limit = 10, $start = 1, $verbose = false): array
+    public function getTalkComments(string $comment_uri, $limit = 10, $start = 1, $verbose = false): array
     {
         $comment_uri .= '?resultsperpage=' . $limit
                       . '&start=' . $start;
@@ -517,7 +517,7 @@ class EventApi extends BaseApi
      * @param  string $approval_uri
      * @return boolean
      */
-    public function rejectEvent($approval_uri): bool
+    public function rejectEvent(string $approval_uri): bool
     {
         [$status, $result, $headers] = $this->apiDelete($approval_uri);
 
@@ -530,7 +530,7 @@ class EventApi extends BaseApi
     /**
      * @return \Event\EventCommentReportEntity[]
      */
-    public function getReportedEventComments($comment_uri): array
+    public function getReportedEventComments(string $comment_uri): array
     {
         $response = json_decode($this->apiGet($comment_uri));
 
@@ -546,7 +546,7 @@ class EventApi extends BaseApi
     /**
      * @return mixed[]
      */
-    public function getPendingClaims($claims_uri, $verbose = false): array
+    public function getPendingClaims(string $claims_uri, $verbose = false): array
     {
         if ($verbose) {
             $claims_uri .= "?verbose=yes";
@@ -565,7 +565,7 @@ class EventApi extends BaseApi
     /**
      * @return \Talk\TalkCommentReportEntity[]
      */
-    public function getReportedTalkComments($comment_uri): array
+    public function getReportedTalkComments(string $comment_uri): array
     {
         $response = json_decode($this->apiGet($comment_uri));
 

@@ -843,7 +843,7 @@ class EventController extends BaseController
      *
      * @return void
      */
-    private function redirectToDetailPage($friendlyName, $status = 302): void
+    private function redirectToDetailPage($friendlyName, int $status = 302): void
     {
         $this->application->redirect(
             $this->application->urlFor('event-detail', ['friendly_name' => $friendlyName]),
@@ -1127,7 +1127,7 @@ class EventController extends BaseController
         );
     }
 
-    private function appoveClaimPendingTalk($talkApi, $claim, $data): void
+    private function appoveClaimPendingTalk($talkApi, $claim, array $data): void
     {
         $talkApi->claimTalk($claim->approve_claim_uri, $data);
 
@@ -1137,7 +1137,7 @@ class EventController extends BaseController
     /**
      * Reject a talk claim
      */
-    private function rejectClaimPendingTalk($talkApi, $claim, $data): void
+    private function rejectClaimPendingTalk($talkApi, $claim, array $data): void
     {
         $talkApi->rejectTalkClaim($claim->approve_claim_uri, $data);
 

@@ -29,17 +29,17 @@ final class FunctionsExtension extends Twig_Extension
         $app = $this->app;
 
         return [
-            new Twig_SimpleFunction('urlFor', function ($routeName, $params = []) use ($app) {
+            new Twig_SimpleFunction('urlFor', function ($routeName, $params = []) use ($app): string {
                 $url = rtrim($app->urlFor($routeName, $params), '/');
 
                 return $url;
             }),
 
-            new Twig_SimpleFunction('hash', function ($value) {
+            new Twig_SimpleFunction('hash', function ($value): string {
                 return md5($value);
             }),
 
-            new Twig_SimpleFunction('gravatar', function ($email_hash, $size = 40) {
+            new Twig_SimpleFunction('gravatar', function (string $email_hash, $size = 40): string {
                 $size = ((int)$size == 0) ? 20 : (int)$size;
 
                 $url = 'https://secure.gravatar.com/avatar/' . $email_hash . '?d=mm&s=' . $size;
@@ -71,14 +71,14 @@ final class FunctionsExtension extends Twig_Extension
                 return $app->urlFor('talk', ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
             }),
 
-            new Twig_SimpleFunction('shortUrlForTalk', function ($talkStub) use ($app) {
+            new Twig_SimpleFunction('shortUrlForTalk', function ($talkStub) use ($app): string {
                 $scheme = $app->request()->getScheme();
                 $host   = $app->request()->headers('host');
 
                 return "$scheme://$host" . $app->urlFor('talk-quicklink', ['talkStub' => $talkStub]);
             }),
 
-            new Twig_SimpleFunction('shortUrlForEvent', function ($eventStub) use ($app) {
+            new Twig_SimpleFunction('shortUrlForEvent', function ($eventStub) use ($app): string {
                 $scheme = $app->request()->getScheme();
                 $host   = $app->request()->headers('host');
 
@@ -111,7 +111,7 @@ final class FunctionsExtension extends Twig_Extension
              *     - 120 minutes converts to "2 hours"
              *     - 126 minutes converts to "2 hours, 6 minutes"
              */
-            new Twig_SimpleFunction('prettyDuration', function ($duration) {
+            new Twig_SimpleFunction('prettyDuration', function ($duration): string {
                 $duration = (int)$duration;
 
                 if ($duration < 60) {
@@ -155,7 +155,7 @@ final class FunctionsExtension extends Twig_Extension
             /**
              * Create a link to download a QR-Code for the given URL
              */
-            new Twig_SimpleFunction('qrcode', function ($url) {
+            new Twig_SimpleFunction('qrcode', function (string $url): string {
                 return sprintf(
                     'https://quickchart.io/chart?cht=qr&chs=300x300&chl=%s&choe=UTF-8&chld=H',
                     urlencode($url . '?qr')

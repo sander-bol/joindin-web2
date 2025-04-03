@@ -113,7 +113,7 @@ $app->add(new Middleware\FormMiddleware($csrfSecret));
 // register services
 $app->container->set('access_token', $_SESSION['access_token'] ?? null);
 
-$app->container->singleton(\Application\CacheService::class, function ($container) {
+$app->container->singleton(\Application\CacheService::class, function ($container): \Application\CacheService {
     $redis  = $container->settings['custom']['redis'];
     $prefix = $redis['options']['prefix'];
 
@@ -124,23 +124,23 @@ $app->container->singleton(\Application\CacheService::class, function ($containe
     $client = new Predis\Client($redis['connection']);
     return new \Application\CacheService($client, $prefix);
 });
-$app->container->singleton(\Application\ContactApi::class, function ($container) {
+$app->container->singleton(\Application\ContactApi::class, function (array $container): \Application\ContactApi {
     return new \Application\ContactApi($container['settings']['custom'], $container['access_token']);
 });
-$app->container->singleton(\User\UserDb::class, function ($container) {
+$app->container->singleton(\User\UserDb::class, function (array $container): \User\UserDb {
     return new \User\UserDb($container[\Application\CacheService::class]);
 });
-$app->container->singleton(\User\UserApi::class, function ($container) {
+$app->container->singleton(\User\UserApi::class, function (array $container): \User\UserApi {
     return new \User\UserApi(
         $container['settings']['custom'],
         $container['access_token'],
         $container[\User\UserDb::class]
     );
 });
-$app->container->singleton(\Event\EventDb::class, function ($container) {
+$app->container->singleton(\Event\EventDb::class, function (array $container): \Event\EventDb {
     return new \Event\EventDb($container[\Application\CacheService::class]);
 });
-$app->container->singleton(\Event\EventApi::class, function ($container) {
+$app->container->singleton(\Event\EventApi::class, function (array $container): \Event\EventApi {
     return new \Event\EventApi(
         $container['settings']['custom'],
         $container['access_token'],
@@ -148,10 +148,10 @@ $app->container->singleton(\Event\EventApi::class, function ($container) {
         $container[\User\UserApi::class]
     );
 });
-$app->container->singleton(\Talk\TalkDb::class, function ($container) {
+$app->container->singleton(\Talk\TalkDb::class, function (array $container): \Talk\TalkDb {
     return new \Talk\TalkDb($container[\Application\CacheService::class]);
 });
-$app->container->singleton(\Talk\TalkApi::class, function ($container) {
+$app->container->singleton(\Talk\TalkApi::class, function (array $container): \Talk\TalkApi {
     return new \Talk\TalkApi(
         $container['settings']['custom'],
         $container['access_token'],
@@ -159,19 +159,19 @@ $app->container->singleton(\Talk\TalkApi::class, function ($container) {
         $container[\User\UserApi::class]
     );
 });
-$app->container->singleton(\User\AuthApi::class, function ($container) {
+$app->container->singleton(\User\AuthApi::class, function (array $container): \User\AuthApi {
     return new \User\AuthApi($container['settings']['custom'], $container['access_token']);
 });
-$app->container->singleton(\Language\LanguageApi::class, function ($container) {
+$app->container->singleton(\Language\LanguageApi::class, function (array $container): \Language\LanguageApi {
     return new \Language\LanguageApi($container['settings']['custom'], $container['access_token']);
 });
-$app->container->singleton(\Talk\TalkTypeApi::class, function ($container) {
+$app->container->singleton(\Talk\TalkTypeApi::class, function (array $container): \Talk\TalkTypeApi {
     return new \Talk\TalkTypeApi($container['settings']['custom'], $container['access_token']);
 });
-$app->container->singleton(\Event\TrackApi::class, function ($container) {
+$app->container->singleton(\Event\TrackApi::class, function (array $container): \Event\TrackApi {
     return new \Event\TrackApi($container['settings']['custom'], $container['access_token']);
 });
-$app->container->singleton(\Client\ClientApi::class, function ($container) {
+$app->container->singleton(\Client\ClientApi::class, function (array $container): \Client\ClientApi {
     return new \Client\ClientApi($container['settings']['custom'], $container['access_token']);
 });
 

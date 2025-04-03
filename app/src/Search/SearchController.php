@@ -148,7 +148,7 @@ class SearchController extends BaseController
      *
      * @return array
      */
-    private function searchEventsByTitleAndTag($page, $keyword, $tag = null)
+    private function searchEventsByTitleAndTag($page, ?string $keyword, ?string $tag = null): array
     {
         $apiQueryParams = [];
 
@@ -177,7 +177,7 @@ class SearchController extends BaseController
      *
      * @return array
      */
-    private function searchTalksByTitle($page, $keyword): array
+    private function searchTalksByTitle($page, string $keyword): array
     {
         $apiQueryParams = [
             'title'          => $keyword,
@@ -197,7 +197,7 @@ class SearchController extends BaseController
      *
      * @return array
      */
-    private function searchUsersByKeyword($page, $keyword): array
+    private function searchUsersByKeyword($page, string $keyword): array
     {
         $apiQueryParams = [
             'keyword'        => $keyword,
