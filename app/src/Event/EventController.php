@@ -797,30 +797,23 @@ class EventController extends BaseController
     {
         $cache    = $this->getCache();
         $eventDb  = new EventDb($cache);
-        $eventApi = new EventApi($this->cfg, $this->accessToken, $eventDb, $this->getUserApi());
 
-        return $eventApi;
+        return new EventApi($this->cfg, $this->accessToken, $eventDb, $this->getUserApi());
     }
 
     protected function getLanguageApi(): \Language\LanguageApi
     {
-        $languageApi = new LanguageApi($this->cfg, $this->accessToken);
-
-        return $languageApi;
+        return new LanguageApi($this->cfg, $this->accessToken);
     }
 
     protected function getTalkTypeApi(): \Talk\TalkTypeApi
     {
-        $talkTypeApi = new TalkTypeApi($this->cfg, $this->accessToken);
-
-        return $talkTypeApi;
+        return new TalkTypeApi($this->cfg, $this->accessToken);
     }
 
     protected function getTrackApi(): \Event\TrackApi
     {
-        $trackApi = new TrackApi($this->cfg, $this->accessToken);
-
-        return $trackApi;
+        return new TrackApi($this->cfg, $this->accessToken);
     }
 
     /**

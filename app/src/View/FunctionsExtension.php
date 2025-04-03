@@ -30,9 +30,7 @@ final class FunctionsExtension extends Twig_Extension
 
         return [
             new Twig_SimpleFunction('urlFor', function ($routeName, $params = []) use ($app): string {
-                $url = rtrim($app->urlFor($routeName, $params), '/');
-
-                return $url;
+                return rtrim($app->urlFor($routeName, $params), '/');
             }),
 
             new Twig_SimpleFunction('hash', function ($value): string {

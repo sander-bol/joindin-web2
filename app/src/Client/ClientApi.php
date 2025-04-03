@@ -119,7 +119,7 @@ class ClientApi extends BaseApi
      * @throws \Exception
      * @return bool
      */
-    public function deleteClient($clientUri): bool
+    public function deleteClient(string $clientUri): bool
     {
         [$status, $result, $headers] = $this->apiDelete($clientUri);
 
