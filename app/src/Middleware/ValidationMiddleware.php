@@ -51,7 +51,7 @@ class ValidationMiddleware extends Middleware
      *
      * @return void
      */
-    public function call()
+    public function call(): void
     {
         $this->addTranslations($this->getTranslator(), $this->getTranslationsRootFolder());
 
@@ -96,7 +96,7 @@ class ValidationMiddleware extends Middleware
      *
      * @return void
      */
-    private function addTranslations($translator, $validatorComponentRootFolder)
+    private function addTranslations($translator, $validatorComponentRootFolder): void
     {
         $translator->addResource(
             'xliff',
