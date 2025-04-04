@@ -33,17 +33,17 @@ abstract class BaseController
     {
         try {
             $this->application->render($template, $data, $status);
-        } catch (Twig_Error_Runtime $twigErrorRuntime) {
+        } catch (\Twig\Error\RuntimeError $runtimeError) {
             $this->application->render(
                 'Error/app_load_error.html.twig',
                 [
                     'message' => sprintf(
                         'An exception has been thrown during the rendering of a template ("%s").',
-                        $twigErrorRuntime->getMessage()
+                        $runtimeError->getMessage()
                     ),
                     -1,
                     null,
-                    $twigErrorRuntime
+                    $runtimeError
                 ]
             );
         }

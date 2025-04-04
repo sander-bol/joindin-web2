@@ -122,15 +122,15 @@ class FormMiddleware extends Middleware
      * allows you to combine multiple together. This method retrieves the loader from Twig and replaces
      * it with a chained version if is not already.
      *
-     * @param \Twig_Environment $env
+     * @param \Twig\Environment $env
      *
-     * @return \Twig_Loader_Chain
+     * @return \Twig\Loader\ChainLoader
      */
     private function getChainingLoader($env)
     {
         $loader = $env->getLoader();
-        if (!$loader instanceof \Twig_Loader_Chain) {
-            $loader = new \Twig_Loader_Chain([$loader]);
+        if (!$loader instanceof \Twig\Loader\ChainLoader) {
+            $loader = new \Twig\Loader\ChainLoader([$loader]);
             $env->setLoader($loader);
         }
 
@@ -142,11 +142,11 @@ class FormMiddleware extends Middleware
      *
      *
      */
-    private function addFormTemplatesFolderToLoader(\Twig_Loader_Chain $loader): void
+    private function addFormTemplatesFolderToLoader(\Twig\Loader\ChainLoader $loader): void
     {
         $reflected = new \ReflectionClass(\Symfony\Bridge\Twig\Extension\FormExtension::class);
         $path      = dirname($reflected->getFileName()) . '/../Resources/views/Form';
-        $loader->addLoader(new \Twig_Loader_Filesystem($path));
+        $loader->addLoader(new \Twig\Loader\FilesystemLoader($path));
     }
 
     /**
@@ -172,7 +172,7 @@ class FormMiddleware extends Middleware
     /**
      * Returns the Twig Environment from the application's view layer.
      *
-     * @return \Twig_Environment
+     * @return \Twig\Environment
      */
     private function getTwigEnvironment()
     {

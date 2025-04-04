@@ -6,7 +6,7 @@ use Twig_Extension;
 use Twig_SimpleFunction;
 use Slim\Slim;
 
-final class FunctionsExtension extends Twig_Extension
+final class FunctionsExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @var Slim
@@ -26,15 +26,15 @@ final class FunctionsExtension extends Twig_Extension
         $app = $this->app;
 
         return [
-            new Twig_SimpleFunction('urlFor', function ($routeName, $params = []) use ($app): string {
+            new \Twig\TwigFunction('urlFor', function ($routeName, $params = []) use ($app): string {
                 return rtrim($app->urlFor($routeName, $params), '/');
             }),
 
-            new Twig_SimpleFunction('hash', function ($value): string {
+            new \Twig\TwigFunction('hash', function ($value): string {
                 return md5($value);
             }),
 
-            new Twig_SimpleFunction('gravatar', function (string $email_hash, $size = 40): string {
+            new \Twig\TwigFunction('gravatar', function (string $email_hash, $size = 40): string {
                 $size = ((int)$size == 0) ? 20 : (int)$size;
 
                 $url = 'https://secure.gravatar.com/avatar/' . $email_hash . '?d=mm&s=' . $size;
@@ -45,11 +45,11 @@ final class FunctionsExtension extends Twig_Extension
                 return $url;
             }),
 
-            new Twig_SimpleFunction('getCurrentRoute', function () use ($app) {
+            new \Twig\TwigFunction('getCurrentRoute', function () use ($app) {
                 return $app->router->getCurrentRoute()->getName();
             }),
 
-            new Twig_SimpleFunction('getCurrentUrl', function ($fullyQualified = false) use ($app) {
+            new \Twig\TwigFunction('getCurrentUrl', function ($fullyQualified = false) use ($app) {
                 $url = $_SERVER['REQUEST_URI'];
 
                 if ($fullyQualified) {
@@ -62,25 +62,25 @@ final class FunctionsExtension extends Twig_Extension
                 return $url;
             }),
 
-            new Twig_SimpleFunction('urlForTalk', function ($eventSlug, $talkSlug, $params = []) use ($app) {
+            new \Twig\TwigFunction('urlForTalk', function ($eventSlug, $talkSlug, $params = []) use ($app) {
                 return $app->urlFor('talk', ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
             }),
 
-            new Twig_SimpleFunction('shortUrlForTalk', function ($talkStub) use ($app): string {
+            new \Twig\TwigFunction('shortUrlForTalk', function ($talkStub) use ($app): string {
                 $scheme = $app->request()->getScheme();
                 $host   = $app->request()->headers('host');
 
                 return sprintf('%s://%s', $scheme, $host) . $app->urlFor('talk-quicklink', ['talkStub' => $talkStub]);
             }),
 
-            new Twig_SimpleFunction('shortUrlForEvent', function ($eventStub) use ($app): string {
+            new \Twig\TwigFunction('shortUrlForEvent', function ($eventStub) use ($app): string {
                 $scheme = $app->request()->getScheme();
                 $host   = $app->request()->headers('host');
 
                 return sprintf('%s://%s', $scheme, $host) . $app->urlFor('event-quicklink', ['stub' => $eventStub]);
             }),
 
-            new Twig_SimpleFunction(
+            new \Twig\TwigFunction(
                 'dateRange',
                 function ($start, $end, $format = 'd.m.Y', $separator = ' - ') {
                     $formatter = new \Org_Heigl\DateRange\DateRangeFormatter();
@@ -107,7 +107,7 @@ final class FunctionsExtension extends Twig_Extension
              *     - 120 minutes converts to "2 hours"
              *     - 126 minutes converts to "2 hours, 6 minutes"
              */
-            new Twig_SimpleFunction('prettyDuration', function ($duration): string {
+            new \Twig\TwigFunction('prettyDuration', function ($duration): string {
                 $duration = (int)$duration;
 
                 if ($duration < 60) {
@@ -137,7 +137,7 @@ final class FunctionsExtension extends Twig_Extension
             /**
              * wrapped Slim request function getPath()
              */
-            new Twig_SimpleFunction('currentPath', function () use ($app) {
+            new \Twig\TwigFunction('currentPath', function () use ($app) {
                 $request     = $app->request;
                 $params      = $app->request->get();
                 $queryString = http_build_query($params);
@@ -152,7 +152,7 @@ final class FunctionsExtension extends Twig_Extension
             /**
              * Create a link to download a QR-Code for the given URL
              */
-            new Twig_SimpleFunction('qrcode', function (string $url): string {
+            new \Twig\TwigFunction('qrcode', function (string $url): string {
                 return sprintf(
                     'https://quickchart.io/chart?cht=qr&chs=300x300&chl=%s&choe=UTF-8&chld=H',
                     urlencode($url . '?qr')
