@@ -11,34 +11,44 @@ abstract class BaseApi
 
     public function __construct($config, $accessToken)
     {
-        if (isset($config['apiUrl'])) {
-            $this->baseApiUrl = $config['apiUrl'];
+        $this->baseApiUrl = $config['apiUrl'] ?? null;
+        if ($this->baseApiUrl === null) {
+            throw new \ConfigException('API URL not set');
         }
 
-        if (isset($config['proxy']) && $config['proxy']) {
-            $this->proxy = $config['proxy'];
-        }
-
+        $this->proxy      = $config['proxy'] ?? null;
         $this->accessToken = $accessToken;
     }
 
-    protected function apiGet(string $url, $params = [])
+    /**
+     *
+     * @return resource
+     */
+    private function getStreamContext(string $httpMethod, string $content = null): resource
     {
-        $paramsString = count($params) > 0 ? '?' . http_build_query($params, '', '&') : '';
+        $contextOpts = [
+            'http' => [
+                'timeout'       => 10,
+                'ignore_errors' => true,
+            ]
+        ];
 
-        $contextOpts = ['http' => [
-            'header'        => "Accept: application/json",
-            'timeout'       => 10,
-            'ignore_errors' => true,
-        ]];
+        $headers = [
+            'Accept' => 'application/json',
+        ];
+
+        if ($httpMethod === 'POST' || $httpMethod === 'PUT') {
+            $headers['Content-type'] = 'application/json';
+            $contextOpts['content'] = $content;
+        }
 
         // Forwarded header - see RFC 7239 (http://tools.ietf.org/html/rfc7239)
-        $ip    = $_SERVER['REMOTE_ADDR'];
-        $agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-        $contextOpts['http']['header'] .= "\r\nForwarded: for=$ip;user-agent=\"$agent\"";
+        $ip                   = $_SERVER['REMOTE_ADDR'];
+        $agent                = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+        $headers['Forwarded'] = "for=$ip;user-agent=\"$agent\"";
 
         if ($this->accessToken) {
-            $contextOpts['http']['header'] .= "\r\nAuthorization: OAuth {$this->accessToken}";
+            $headers['Authorization'] = "OAuth {$this->accessToken}";
         }
 
         if ($this->proxy) {
@@ -46,46 +56,34 @@ abstract class BaseApi
             $contextOpts['http']['request_fulluri'] = true;
         }
 
-        $streamContext = stream_context_create($contextOpts);
+        $contextOpts['http']['headers'] = $headers;
+
+        return stream_context_create($contextOpts);
+    }
+
+    protected function apiGet(string $url, $params = []): string
+    {
+        $paramsString = count($params) > 0 ? '?' . http_build_query($params, '', '&') : '';
+
+        $streamContext = $this->getStreamContext('GET');
         $result        = file_get_contents($url . $paramsString, false, $streamContext);
 
         if (false === $result) {
-            throw new \Exception('Unable to connect to API');
+            throw new \RuntimeException('Unable to connect to API');
         }
 
         return $result;
     }
 
-    protected function apiDelete(string $url, $params = [])
+    protected function apiDelete(string $url, $params = []): array
     {
         $paramsString = count($params) > 0 ? '?' . http_build_query($params, '', '&') : '';
 
-        $contextOpts = ['http' => [
-            'method'        => 'DELETE',
-            'header'        => "Accept: application/json",
-            'timeout'       => 10,
-            'ignore_errors' => true,
-        ]];
-
-        // Forwarded header - see RFC 7239 (http://tools.ietf.org/html/rfc7239)
-        $ip    = $_SERVER['REMOTE_ADDR'];
-        $agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-        $contextOpts['http']['header'] .= "\r\nForwarded: for=$ip;user-agent=\"$agent\"";
-
-        if ($this->accessToken) {
-            $contextOpts['http']['header'] .= "\r\nAuthorization: OAuth {$this->accessToken}";
-        }
-
-        if ($this->proxy) {
-            $contextOpts['http']['proxy']           = $this->proxy;
-            $contextOpts['http']['request_fulluri'] = true;
-        }
-
-        $streamContext = stream_context_create($contextOpts);
+        $streamContext = $this->getStreamContext('DELETE');
         $result        = file_get_contents($url . $paramsString, false, $streamContext);
 
         if (false === $result) {
-            throw new \Exception('Unable to connect to API');
+            throw new \RuntimeException('Unable to connect to API');
         }
 
         $status = 0;
@@ -98,35 +96,12 @@ abstract class BaseApi
         return [$status, $result, $headers];
     }
 
-    protected function apiPost($url, $params = [])
+    protected function apiPost($url, $params = []): array
     {
-        $contextOpts = ['http' => [
-            'method' => 'POST',
-            'header' => "Content-type: application/json\r\n"
-                      . "Accept: application/json",
-            'content'       => json_encode($params),
-            'timeout'       => 10,
-            'ignore_errors' => true,
-        ]];
-
-        // Forwarded header - see RFC 7239 (http://tools.ietf.org/html/rfc7239)
-        $ip    = $_SERVER['REMOTE_ADDR'];
-        $agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-        $contextOpts['http']['header'] .= "\r\nForwarded: for=$ip;user-agent=\"$agent\"";
-
-        if ($this->accessToken) {
-            $contextOpts['http']['header'] .= "\r\nAuthorization: OAuth {$this->accessToken}";
-        }
-
-        if ($this->proxy) {
-            $contextOpts['http']['proxy']           = $this->proxy;
-            $contextOpts['http']['request_fulluri'] = true;
-        }
-
-        $streamContext = stream_context_create($contextOpts);
+        $streamContext = $this->getStreamContext('POST', json_encode($params, JSON_THROW_ON_ERROR));
         $result        = file_get_contents($url, false, $streamContext);
         if (false === $result) {
-            throw new \Exception('Unable to connect to API');
+            throw new \RuntimeException('Unable to connect to API');
         }
 
         $status = 0;
@@ -139,35 +114,12 @@ abstract class BaseApi
         return [$status, $result, $headers];
     }
 
-    protected function apiPut($url, $params = [])
+    protected function apiPut($url, $params = []): array
     {
-        $contextOpts = ['http' => [
-            'method' => 'PUT',
-            'header' => "Content-type: application/json\r\n"
-                . "Accept: application/json",
-            'content'       => json_encode($params),
-            'timeout'       => 10,
-            'ignore_errors' => true,
-        ]];
-
-        // Forwarded header - see RFC 7239 (http://tools.ietf.org/html/rfc7239)
-        $ip    = $_SERVER['REMOTE_ADDR'];
-        $agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-        $contextOpts['http']['header'] .= "\r\nForwarded: for=$ip;user-agent=\"$agent\"";
-
-        if ($this->accessToken) {
-            $contextOpts['http']['header'] .= "\r\nAuthorization: OAuth {$this->accessToken}";
-        }
-
-        if ($this->proxy) {
-            $contextOpts['http']['proxy']           = $this->proxy;
-            $contextOpts['http']['request_fulluri'] = true;
-        }
-
-        $streamContext = stream_context_create($contextOpts);
+        $streamContext = $this->getStreamContext('PUT', json_encode($params, JSON_THROW_ON_ERROR));
         $result        = file_get_contents($url, false, $streamContext);
         if (false === $result) {
-            throw new \Exception('Unable to connect to API');
+            throw new \RuntimeException('Unable to connect to API');
         }
 
         $status = 0;
@@ -206,10 +158,7 @@ abstract class BaseApi
         return $headers;
     }
 
-    /**
-     * @param string $accessToken
-     */
-    public function setAccessToken($accessToken): void
+    public function setAccessToken(string $accessToken): void
     {
         $this->accessToken = $accessToken;
     }
