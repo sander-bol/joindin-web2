@@ -16,9 +16,6 @@ class TalkTypeApi extends BaseApi
         $queryParams['resultsperpage'] = 0;
 
         $result = $this->apiGet($url, $queryParams);
-        if (!$result) {
-            throw new \RuntimeException('Unable to retrieve list of talk types');
-        }
 
         return json_decode($result, true);
     }

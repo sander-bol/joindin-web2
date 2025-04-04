@@ -24,13 +24,11 @@ class UserApi extends BaseApi
     {
         $result = $this->apiGet($url, ['verbose'=>'yes']);
 
-        if ($result) {
-            $data = json_decode($result, false, 512, JSON_BIGINT_AS_STRING);
-            if ($data && (isset($data->users) && isset($data->users[0]))) {
-                $user = new UserEntity($data->users[0]);
-                $this->userDb->save($user);
-                return $user;
-            }
+        $data = json_decode($result, false, 512, JSON_BIGINT_AS_STRING);
+        if ($data && (isset($data->users) && isset($data->users[0]))) {
+            $user = new UserEntity($data->users[0]);
+            $this->userDb->save($user);
+            return $user;
         }
 
         return false;
@@ -137,7 +135,7 @@ class UserApi extends BaseApi
         $url    = $this->baseApiUrl . '/v2.1/users';
         $result = $this->apiGet($url, ['username' => $username, 'verbose'=>'yes']);
 
-        if ($result) {
+        if ($result !== '' && $result !== '0') {
             $data = json_decode($result);
             if ($data && isset($data->users)) {
                 foreach ($data->users as $userData) {

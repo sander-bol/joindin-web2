@@ -45,10 +45,10 @@ abstract class BaseApi
         // Forwarded header - see RFC 7239 (http://tools.ietf.org/html/rfc7239)
         $ip                   = $_SERVER['REMOTE_ADDR'];
         $agent                = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-        $headers['Forwarded'] = "for=$ip;user-agent=\"$agent\"";
+        $headers['Forwarded'] = sprintf('for=%s;user-agent="%s"', $ip, $agent);
 
         if ($this->accessToken) {
-            $headers['Authorization'] = "OAuth {$this->accessToken}";
+            $headers['Authorization'] = 'OAuth ' . $this->accessToken;
         }
 
         if ($this->proxy) {
@@ -70,6 +70,9 @@ abstract class BaseApi
 
         if (false === $result) {
             throw new \RuntimeException('Unable to connect to API');
+        }
+        if ($result === '') {
+            throw new \RuntimeException('API returned an empty result');
         }
 
         return $result;

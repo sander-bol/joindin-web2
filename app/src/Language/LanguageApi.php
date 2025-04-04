@@ -16,9 +16,6 @@ class LanguageApi extends BaseApi
         $queryParams['resultsperpage'] = 0;
 
         $result = $this->apiGet($url, $queryParams);
-        if (!$result) {
-            throw new \RuntimeException('Unable to retrieve list of languages');
-        }
 
         return json_decode($result, true);
     }
