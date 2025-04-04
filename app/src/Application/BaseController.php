@@ -10,6 +10,7 @@ abstract class BaseController
     protected $application;
 
     protected $accessToken;
+
     protected $cfg;
 
     public function __construct(Slim $app)
@@ -32,17 +33,17 @@ abstract class BaseController
     {
         try {
             $this->application->render($template, $data, $status);
-        } catch (Twig_Error_Runtime $e) {
+        } catch (Twig_Error_Runtime $twigErrorRuntime) {
             $this->application->render(
                 'Error/app_load_error.html.twig',
                 [
                     'message' => sprintf(
                         'An exception has been thrown during the rendering of a template ("%s").',
-                        $e->getMessage()
+                        $twigErrorRuntime->getMessage()
                     ),
                     -1,
                     null,
-                    $e
+                    $twigErrorRuntime
                 ]
             );
         }
@@ -54,6 +55,7 @@ abstract class BaseController
         if (array_key_exists($name, $_SESSION)) {
             $value = $_SESSION[$name];
         }
+
         return $value;
     }
 

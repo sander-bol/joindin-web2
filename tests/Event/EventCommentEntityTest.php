@@ -9,7 +9,7 @@ class EventCommentEntityTest extends TestCase
 {
     private $commentData;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->commentData                      = new stdClass();
         $this->commentData->comment             = "Test event comment text";

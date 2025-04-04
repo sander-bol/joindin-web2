@@ -13,8 +13,10 @@ class TrailingSlashMiddlewareTest extends TestCase
 {
     /** @var \Prophecy\Prophecy\ObjectProphecy|Slim */
     private $app;
+
     /** @var \Prophecy\Prophecy\ObjectProphecy|Middleware */
     private $next;
+
     /** @var \Prophecy\Prophecy\ObjectProphecy|Request */
     private $request;
 

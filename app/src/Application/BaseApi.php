@@ -4,7 +4,9 @@ namespace Application;
 abstract class BaseApi
 {
     protected $baseApiUrl;
+
     protected $accessToken;
+
     protected $proxy;
 
     public function __construct($config, $accessToken)

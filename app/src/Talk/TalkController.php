@@ -59,6 +59,7 @@ class TalkController extends BaseController
             foreach ($comments as $comment) {
                 $canRateTalk = $comment->canRateTalk($_SESSION['user']->getUri());
             }
+
             if ($talk->isSpeaker($_SESSION['user']->getUri())) {
                 $canRateTalk = false;
             }
@@ -115,6 +116,7 @@ class TalkController extends BaseController
             $this->application->notFound();
             return;
         }
+
         $talkId    = basename($talk['uri']);
         $talkMedia = $talkApi->getTalkLinksById($talkId);
 
@@ -147,6 +149,7 @@ class TalkController extends BaseController
         if ($talk->getTracks()) {
             $data['track'] = $talk->getTracks()[0]->track_uri;
         }
+
         if ($talk->getSpeakers()) {
             foreach ($talk->getSpeakers() as $speaker) {
                 $data['speakers'][] = ['name' => $speaker->speaker_name];
@@ -282,7 +285,7 @@ class TalkController extends BaseController
                 $this->application->flash('claimerror', $e->getMessage());
             }
         } else {
-            $this->application->flash('claimerror', "No speaker {$display_name} found for this talk.");
+            $this->application->flash('claimerror', sprintf('No speaker %s found for this talk.', $display_name));
         }
 
         $url = $this->application->urlFor("talk", ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
@@ -311,8 +314,8 @@ class TalkController extends BaseController
             $result = $talkApi->toggleStar($talk);
             $this->application->status(200);
             echo json_encode($result);
-        } catch (Exception $e) {
-            $reason = $e->getMessage();
+        } catch (Exception $exception) {
+            $reason = $exception->getMessage();
             $this->application->halt(500, '{ "message": "Failed to toggle star: ' . $reason .'" }');
         }
     }
@@ -355,6 +358,7 @@ class TalkController extends BaseController
             if (!$eventEntity) {
                 return \Slim\Slim::getInstance()->notFound();
             }
+
             $event['url_friendly_name'] = $eventEntity->getUrlFriendlyName();
         }
 
@@ -384,6 +388,7 @@ class TalkController extends BaseController
                 //Otherwise, they provided a rating but no comment
                 $this->application->flash('rating', $rating);
             }
+
             $url .= '#add-comment';
             $this->application->redirect($url);
         }
@@ -409,6 +414,7 @@ class TalkController extends BaseController
 
                     $this->application->redirect($url);
                 }
+
                 if (stripos($e->getMessage(), 'comment failed spam check') !== false) {
                     // spam comment
                     $this->application->flash('error', 'Comment failed the spam check.');
@@ -421,6 +427,7 @@ class TalkController extends BaseController
 
                     $this->application->redirect($url);
                 }
+
                 throw $e;
             }
         }
@@ -444,6 +451,7 @@ class TalkController extends BaseController
             if ($comment->getCommentHash() !== $commentHash) {
                 continue;
             }
+
             $reportedComment = $comment;
             break;
         }
@@ -455,8 +463,8 @@ class TalkController extends BaseController
 
         try {
             $talkApi->reportComment($reportedComment->getReportedUri());
-        } catch (Exception $e) {
-            $this->application->flash('error', $e->getMessage());
+        } catch (Exception $exception) {
+            $this->application->flash('error', $exception->getMessage());
             $this->application->redirect($url);
         }
 
@@ -531,7 +539,7 @@ class TalkController extends BaseController
         $talkApi = $this->getTalkApi();
         try {
             $talk = $talkApi->getTalkBySlug($talkSlug, $event->getUri());
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->application->notFound();
             return;
         }

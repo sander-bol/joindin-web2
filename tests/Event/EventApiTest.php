@@ -7,13 +7,18 @@ use Predis\Client;
 class EventApiTest extends TestCase
 {
     private $mockConfig;
+
     private $mockCache;
+
     private $mockDbEvent;
+
     private $mockUserDb;
+
     private $mockUserApi;
+
     private $mockPredisClient;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->mockConfig = ['apiUrl' => 'http://example.com'];
 

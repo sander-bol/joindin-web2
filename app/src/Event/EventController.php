@@ -21,6 +21,7 @@ use Language\LanguageApi;
 class EventController extends BaseController
 {
     private $itemsPerPage = 10;
+
     private $pendingItemsPerPage = 30;
 
     public function __construct(Slim $app)
@@ -102,6 +103,7 @@ class EventController extends BaseController
             if (isset($parts['start'])) {
                 $start = $parts['start'];
             }
+
             $_SESSION['events_list_middle_start'] = $start;
         }
 
@@ -191,6 +193,7 @@ class EventController extends BaseController
             if ($event) {
                 $this->redirectToDetailPage($event->getUrlFriendlyName(), 301);
             }
+
             return Slim::getInstance()->notFound();
         }
 
@@ -322,7 +325,7 @@ class EventController extends BaseController
 
         $this->application->flashKeep();
 
-        $events_url = $this->application->urlFor("event-schedule-$scheduleView", ['friendly_name' => $friendly_name]);
+        $events_url = $this->application->urlFor('event-schedule-' . $scheduleView, ['friendly_name' => $friendly_name]);
         $this->application->redirect($events_url);
     }
 
@@ -441,16 +444,19 @@ class EventController extends BaseController
                     $this->application->flash('error', 'Duplicate comment.');
                     $this->application->redirect($url);
                 }
+
                 if (stripos($e->getMessage(), 'comment failed spam check') !== false) {
                     // spam comment
                     $this->application->flash('error', 'Comment failed the spam check.');
                     $this->application->redirect($url);
                 }
+
                 if (stripos($e->getMessage(), 'The field \"comment\" is required') !== false) {
                     // spam comment
                     $this->application->flash('error', 'You must provide a comment.');
                     $this->application->redirect($url);
                 }
+
                 throw $e;
             }
         }
@@ -471,6 +477,7 @@ class EventController extends BaseController
             if ($comment->getCommentHash() !== $comment_hash) {
                 continue;
             }
+
             $reportedComment = $comment;
             break;
         }
@@ -482,8 +489,8 @@ class EventController extends BaseController
 
         try {
             $eventApi->reportComment($reportedComment->getReportedUri());
-        } catch (Exception $e) {
-            $this->application->flash('error', $e->getMessage());
+        } catch (Exception $exception) {
+            $this->application->flash('error', $exception->getMessage());
             $this->application->redirect($url);
         }
 
@@ -637,8 +644,8 @@ class EventController extends BaseController
                     $this->application->flash('message', 'Event rejected.');
                     break;
             }
-        } catch (Exception $e) {
-            $this->application->flash('error', $e->getMessage());
+        } catch (Exception $exception) {
+            $this->application->flash('error', $exception->getMessage());
         }
 
         $this->application->redirect($this->application->urlFor("events-pending"));
@@ -666,6 +673,7 @@ class EventController extends BaseController
                 )
             );
         }
+
         if ($extra && is_array($extra) && ($extra[0] == "comments")) {
             $this->application->redirect(
                 $this->application->urlFor(
@@ -674,6 +682,7 @@ class EventController extends BaseController
                 )
             );
         }
+
         if ($extra && is_array($extra) && ($extra[0] == "talks")) {
             $this->application->redirect(
                 $this->application->urlFor(
@@ -689,6 +698,7 @@ class EventController extends BaseController
                 )
             );
         }
+
         return null;
     }
 
@@ -709,9 +719,9 @@ class EventController extends BaseController
         $result = false;
         try {
             $result = $eventApi->submit($values);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $form->addError(
-                new FormError('an error occurred while submitting your event: ' . $e->getMessage())
+                new FormError('an error occurred while submitting your event: ' . $exception->getMessage())
             );
         }
 
@@ -735,9 +745,9 @@ class EventController extends BaseController
         $result = false;
         try {
             $result = $eventApi->edit($values);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $form->addError(
-                new FormError('An error occurred while editing your event: ' . $e->getMessage())
+                new FormError('An error occurred while editing your event: ' . $exception->getMessage())
             );
         }
 
@@ -749,15 +759,16 @@ class EventController extends BaseController
                     $_FILES['event']['tmp_name']['new_icon']
                 );
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $result   = false;
             $error    = $e->getMessage();
             $messages = json_decode($error);
             if ($messages) {
                 $error = implode(', ', $messages);
             }
+
             $form->addError(
-                new FormError("An error occurred while uploading your event icon: $error")
+                new FormError('An error occurred while uploading your event icon: ' . $error)
             );
         }
 
@@ -917,6 +928,7 @@ class EventController extends BaseController
             if (! $event->getCanEdit()) {
                 $this->redirectToDetailPage($event->getUrlFriendlyName());
             }
+
             $reported_uri = $this->application->request->post('reported_uri');
             $decision     = $this->application->request->post('decision');
 
@@ -1026,10 +1038,10 @@ class EventController extends BaseController
                 $this->application->urlFor('event-hosts', ['friendly_name' => $friendly_name]),
                 204
             );
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->application->flash(
                 'error',
-                $e->getMessage()
+                $exception->getMessage()
             );
         }
 
@@ -1060,6 +1072,7 @@ class EventController extends BaseController
                     . $this->application->urlFor('event-hosts', ['friendly_name' => $friendly_name])
                 );
             }
+
             $form->submit($request->post($form->getName()));
 
             if ($form->isValid()) {
@@ -1133,6 +1146,7 @@ class EventController extends BaseController
         if (!$event) {
             return Slim::getInstance()->notFound();
         }
+
         if (!$event->getCanEdit()) {
             $this->application->flash('error', "You do not have permission to do this.");
             $this->redirectToDetailPage($event->getUrlFriendlyName());
@@ -1152,6 +1166,7 @@ class EventController extends BaseController
         foreach ($sessionKeys as $key) {
             $data[$key] = $this->getSessionVariable('add_talk_' . $key);
         }
+
         $data['speakers'][] = [];
 
         /** @var FormFactoryInterface $factory */
@@ -1212,6 +1227,7 @@ class EventController extends BaseController
         if (!$event) {
             return Slim::getInstance()->notFound();
         }
+
         if (!$event->getCanEdit()) {
             $this->application->flash('error', "You do not have permission to do this.");
             $this->redirectToDetailPage($event->getUrlFriendlyName());
@@ -1346,8 +1362,9 @@ class EventController extends BaseController
                 if ($messages) {
                     $error = implode(', ', $messages);
                 }
+
                 $form->addError(
-                    new FormError("An error occurred while uploading your event csv: $error")
+                    new FormError('An error occurred while uploading your event csv: ' . $error)
                 );
             }
         }

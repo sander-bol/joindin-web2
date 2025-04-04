@@ -70,7 +70,7 @@ class ClientController extends BaseController
         $clientApi = $this->getClientApi();
         try {
             $client = $clientApi->getById($clientName);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->application->notFound();
             return;
         }
@@ -150,7 +150,7 @@ class ClientController extends BaseController
         $clientApi = $this->getClientApi();
         try {
             $client = $clientApi->getById($clientName);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->application->notFound();
             return;
         }
@@ -222,9 +222,9 @@ class ClientController extends BaseController
         $result = false;
         try {
             $result = $clientApi->submit($values);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $form->addError(
-                new FormError('an error occurred while submitting your client: ' . $e->getMessage())
+                new FormError('an error occurred while submitting your client: ' . $exception->getMessage())
             );
         }
 
@@ -255,7 +255,7 @@ class ClientController extends BaseController
         $clientApi = $this->getClientApi();
         try {
             $client = $clientApi->getById($clientName);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $this->application->notFound();
             return;
         }
@@ -284,9 +284,9 @@ class ClientController extends BaseController
                         $this->application->urlFor('clients', ['username' => $username])
                     );
                     return;
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException $exception) {
                     $form->adderror(
-                        new FormError('An error occurred while removing this client: ' . $e->getmessage())
+                        new FormError('An error occurred while removing this client: ' . $exception->getmessage())
                     );
                 }
             }

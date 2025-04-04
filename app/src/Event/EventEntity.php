@@ -106,6 +106,7 @@ class EventEntity extends BaseEntity
 
         return $this;
     }
+
     /**
      * @return array|null
      */
