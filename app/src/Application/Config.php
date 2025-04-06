@@ -25,6 +25,6 @@ class Config implements \ArrayAccess
     }
     public function offsetGet($key)
     {
-        return array_key_exists($key, $this->settings) ? $this->settings[$key] : null;
+        return $this->settings[$key] ?? null;
     }
 }
