@@ -86,7 +86,7 @@ class ClientApi extends BaseApi
      * @see ClientFormType::buildForm() for a list of supported fields in the $data array
      * and their constraints.
      */
-    public function editClient($clientUri, array $data): \Client\ClientEntity
+    public function editClient(string $clientUri, array $data): \Client\ClientEntity
     {
         $values = [
             'name'         => $data['application'],

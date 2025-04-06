@@ -7,8 +7,6 @@ class TalkTypeApi extends BaseApi
 {
     /**
      * Retrieve list of talk types from the API
-     *
-     * @return array
      */
     public function getTalkTypes(): array
     {

@@ -22,7 +22,7 @@ class EventApi extends BaseApi
      */
     protected $userApi;
 
-    public function __construct($config, $accessToken, EventDb $eventDb, UserApi $userApi)
+    public function __construct($config, ?string $accessToken, EventDb $eventDb, UserApi $userApi)
     {
         parent::__construct($config, $accessToken);
         $this->eventDb = $eventDb;
@@ -134,8 +134,6 @@ class EventApi extends BaseApi
 
     /**
      * Get an event by id
-     *
-     * @param integer $eventId
      */
     public function getEventById(int $eventId): ?EventEntity
     {
@@ -151,7 +149,6 @@ class EventApi extends BaseApi
     /**
      * Get comments for given event
      *
-     * @param bool $verbose
      *
      * @return EventCommentEntity[]
      */
@@ -225,8 +222,6 @@ class EventApi extends BaseApi
     /**
      * Get attendees for given event
      *
-     * @param int $limit
-     * @param bool $verbose
      *
      * @return UserEntity[]
      */
@@ -253,9 +248,7 @@ class EventApi extends BaseApi
      * Submits a new event to the API and returns it or null if it is pending acceptance.
      *
      *
-     * @return EventEntity|null
      * @throws Exception if a status code other than 201 is returned.
-     *
      * @see EventFormType::buildForm() for a list of supported fields in the $data array
      * and their constraints.
      */
@@ -302,7 +295,6 @@ class EventApi extends BaseApi
      * If something happened NULL is returned
      *
      *
-     * @return EventEntity|null
      * @throws Exception if a status code other than 201 is returned.
      * @see EventFormType::buildForm() for a list of supported fields in the $data array
      */
@@ -338,7 +330,6 @@ class EventApi extends BaseApi
      * If something happened NULL is returned
      *
      *
-     * @return EventEntity|null
      * @throws Exception if a status code other than 201 is returned.
      * @see EventHostFormType::buildForm() for a list of supported fields in the $data array
      */
@@ -508,8 +499,6 @@ class EventApi extends BaseApi
 
     /**
      * Approve a pending event by POSTing to approval_uri
-     *
-     * @param string $approval_uri
      */
     public function approveEvent(string $approval_uri): bool
     {
@@ -591,8 +580,6 @@ class EventApi extends BaseApi
     /**
      * Moderate a comment by PUT'ing a decision to the reported_uri.
      *
-     * @param string $reported_uri
-     * @param string $decision
      *
      * @throws Exception on error
      */

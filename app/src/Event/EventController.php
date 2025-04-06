@@ -181,7 +181,6 @@ class EventController extends BaseController
      * Otherwise, return details
      *
      * @@see https://joindin.jira.com/browse/JOINDIN-609 If last page remembered default to that instead
-     * @param string $friendly_name
      */
     public function eventDefault(string $friendly_name)
     {
@@ -190,7 +189,7 @@ class EventController extends BaseController
         if (! $event) {
             // Maybe it's a stub
             $event = $eventApi->getByStub($friendly_name);
-            if ($event) {
+            if ($event instanceof \Event\EventEntity) {
                 $this->redirectToDetailPage($event->getUrlFriendlyName(), 301);
             }
 
@@ -346,7 +345,7 @@ class EventController extends BaseController
         ]);
     }
 
-    public function scheduleList($friendly_name, $starred = false): void
+    public function scheduleList(string $friendly_name, $starred = false): void
     {
         $eventApi = $this->getEventApi();
         $event    = $eventApi->getByFriendlyUrl($friendly_name);
@@ -418,7 +417,7 @@ class EventController extends BaseController
     {
         $eventApi = $this->getEventApi();
         $event    = $eventApi->getByStub($stub);
-        if (! $event) {
+        if (!$event instanceof \Event\EventEntity) {
             $this->redirectToListPage();
         }
 
@@ -615,8 +614,6 @@ class EventController extends BaseController
 
     /**
      * Approve or reject a pending event
-     *
-     * @param  string $friendly_name
      */
     public function actionPendingEvent(string $friendly_name): void
     {
@@ -654,8 +651,6 @@ class EventController extends BaseController
     /**
      * Handles redirecting web1 event urls to web2
      * e.g. /event/view/3 -> /event/myevent
-     *
-     * @param int $eventId
      */
     public function redirectFromId(int $eventId, $extra = false)
     {
@@ -910,8 +905,6 @@ class EventController extends BaseController
      * Moderate a comment by POSTing to this action with a decision and a
      * reported_uri. You must be logged in and an event admin to moderate
      * a comment. Redirects back to the list of reported comments.
-     *
-     * @param string $friendly_name
      */
     public function moderateComment(string $friendly_name): void
     {
@@ -944,7 +937,7 @@ class EventController extends BaseController
         $this->application->redirect($url);
     }
 
-    public function talkClaims($friendly_name): void
+    public function talkClaims(string $friendly_name): void
     {
         if (!isset($_SESSION['user'])) {
             $this->application->redirect(
@@ -991,6 +984,7 @@ class EventController extends BaseController
                     }
                 }
             }
+
             unset($claim);
 
             $this->render(
@@ -1137,8 +1131,6 @@ class EventController extends BaseController
 
     /**
      * Add a talk to the event
-     *
-     * @param string $friendly_name
      */
     public function addTalk(string $friendly_name)
     {
@@ -1218,8 +1210,6 @@ class EventController extends BaseController
 
     /**
      * Edit tracks for this event
-     *
-     * @param string $friendly_name
      */
     public function editTracks(string $friendly_name)
     {
@@ -1303,7 +1293,6 @@ class EventController extends BaseController
     /**
      * Upload Data from CSV for this event
      * @todo Validate & Process uploaded cSV
-     * @param string $eventSlug
      */
     public function eventImportCsv(string $eventSlug): void
     {
@@ -1423,33 +1412,21 @@ class EventController extends BaseController
         return $slugs;
     }
 
-    /**
-     * @return CacheService
-     */
     private function getCache(): CacheService
     {
         return $this->application->container->get(CacheService::class);
     }
 
-    /**
-     * @return TalkDb
-     */
     private function getTalkDb(): TalkDb
     {
         return $this->application->container->get(TalkDb::class);
     }
 
-    /**
-     * @return TalkApi
-     */
     private function getTalkApi(): TalkApi
     {
         return $this->application->container->get(TalkApi::class);
     }
 
-    /**
-     * @return UserApi
-     */
     private function getUserApi(): UserApi
     {
         return $this->application->container->get(UserApi::class);

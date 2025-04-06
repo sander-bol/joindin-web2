@@ -94,9 +94,6 @@ class EventEntity extends BaseEntity
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getTags(): array
     {
         return $this->data->tags ?? [];
@@ -191,7 +188,7 @@ class EventEntity extends BaseEntity
     public function isPastEvent(): bool
     {
         $endDate = $this->getEndDateObject();
-        if ( ! $endDate) {
+        if ( !$endDate instanceof \DateTimeImmutable) {
             return false;
         }
 
@@ -247,8 +244,6 @@ class EventEntity extends BaseEntity
 
     /**
      * Set the Timezone continent
-     *
-     * @param string $tzContinent
      */
     public function setTzContinent(string $tzContinent): void
     {
@@ -267,8 +262,6 @@ class EventEntity extends BaseEntity
 
     /**
      * Set the Timezone place
-     *
-     * @param string $tzPlace
      */
     public function setTzPlace(string $tzPlace): void
     {
@@ -279,8 +272,6 @@ class EventEntity extends BaseEntity
      * Returns the URL
      *
      * This is required by Symfonys PropertyAccessor
-     *
-     * @return string
      */
     public function getHref(): string
     {
@@ -289,8 +280,6 @@ class EventEntity extends BaseEntity
 
     /**
      * Set the HREF value
-     *
-     * @param string $href
      */
     public function setHref(string $href): void
     {
@@ -299,7 +288,7 @@ class EventEntity extends BaseEntity
 
     public function getCfPStartDate(): ?string
     {
-        return ! empty($this->data->cfp_start_date) ? $this->data->cfp_start_date : null;
+        return empty($this->data->cfp_start_date) ? null : $this->data->cfp_start_date;
     }
 
     public function setCfpStartDate(string $date): self
@@ -311,7 +300,7 @@ class EventEntity extends BaseEntity
 
     public function getCfPEndDate()
     {
-        return ! empty($this->data->cfp_end_date) ? $this->data->cfp_end_date : null;
+        return empty($this->data->cfp_end_date) ? null : $this->data->cfp_end_date;
     }
 
     public function setCfpEndDate(string $date): self
@@ -328,7 +317,7 @@ class EventEntity extends BaseEntity
      */
     public function getCfpUrl(): ?string
     {
-        return ! empty($this->data->cfp_url) ? $this->data->cfp_url : null;
+        return empty($this->data->cfp_url) ? null : $this->data->cfp_url;
     }
 
     public function setCfpUrl(string $cfpUrl): self
@@ -344,7 +333,7 @@ class EventEntity extends BaseEntity
      */
     public function getCfpStatus(): string
     {
-        if (empty($this->getCfpStartDate()) || empty($this->getCfpEndDate())) {
+        if ($this->getCfpStartDate() === null || $this->getCfpStartDate() === '' || $this->getCfpStartDate() === '0' || empty($this->getCfpEndDate())) {
             return '';
         }
 
@@ -356,6 +345,7 @@ class EventEntity extends BaseEntity
         if ($now < $startDate) {
             return 'Pending';
         }
+
         if ($now <= $endDate) {
             return 'Open';
         }

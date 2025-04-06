@@ -41,8 +41,6 @@ class SearchController extends BaseController
 
     /**
      * Sanitize the search string - based on stub definition
-     *
-     * @param string $keyword
      */
     protected function sanitizeKeyword(string $keyword): ?string
     {
@@ -51,8 +49,6 @@ class SearchController extends BaseController
 
     /**
      * Sanitize a tag
-     *
-     * @param string $tag
      */
     protected function sanitizeTag(string $tag): ?string
     {
@@ -136,7 +132,6 @@ class SearchController extends BaseController
     }
 
     /**
-     * @param int $page
      * @param string $keyword
      * @param string $tag
      */
@@ -163,10 +158,7 @@ class SearchController extends BaseController
         );
     }
 
-    /**
-     * @param int $page
-     *
-     */
+    
     private function searchTalksByTitle(int $page, string $keyword): array
     {
         $apiQueryParams = [
@@ -193,25 +185,16 @@ class SearchController extends BaseController
         return $this->getUserApi()->getCollection($apiQueryParams);
     }
 
-    /**
-     * @return EventApi
-     */
     protected function getEventApi(): EventApi
     {
         return $this->application->container->get(EventApi::class);
     }
 
-    /**
-     * @return TalkApi
-     */
     protected function getTalkApi(): TalkApi
     {
         return $this->application->container->get(TalkApi::class);
     }
 
-    /**
-     * @return UserApi
-     */
     private function getUserApi(): UserApi
     {
         return $this->application->container->get(UserApi::class);

@@ -8,7 +8,7 @@ class UserApi extends BaseApi
     /** @var UserDb */
     private $userDb;
 
-    public function __construct($config, $accessToken, UserDb $userDb)
+    public function __construct($config, ?string $accessToken, UserDb $userDb)
     {
         parent::__construct($config, $accessToken);
         $this->userDb = $userDb;
@@ -238,7 +238,7 @@ class UserApi extends BaseApi
      * @throws \Exception if unsuccessful
      * @return UserEntity
      */
-    public function edit($uri, array $data)
+    public function edit(string $uri, array $data)
     {
         [$status, $result, $headers] = $this->apiPut($uri, $data);
 

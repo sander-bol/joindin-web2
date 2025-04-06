@@ -10,8 +10,6 @@ class TalkEntity extends BaseEntity implements ArrayAccess
 {
     /**
      * Is user a speaker on this talk?
-     *
-     * @param  string  $userUri
      */
     public function isSpeaker(string $userUri): bool
     {

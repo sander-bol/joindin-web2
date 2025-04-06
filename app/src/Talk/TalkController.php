@@ -37,7 +37,7 @@ class TalkController extends BaseController
         $app->map('/event/:eventSlug/:talkSlug/delete', [$this, 'deleteTalk'])->via('GET', 'POST')->name('talk-delete');
     }
 
-    public function index($eventSlug, $talkSlug)
+    public function index(string $eventSlug, string $talkSlug)
     {
         $eventApi = $this->getEventApi();
         $event    = $eventApi->getByFriendlyUrl($eventSlug);
@@ -93,7 +93,7 @@ class TalkController extends BaseController
         return null;
     }
 
-    public function editTalk($eventSlug, $talkSlug): void
+    public function editTalk(string $eventSlug, string $talkSlug): void
     {
         if (!isset($_SESSION['user'])) {
             $thisUrl = $this->application->urlFor('talk-edit', ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
@@ -232,7 +232,7 @@ class TalkController extends BaseController
     }
 
 
-    public function claimTalk($eventSlug, $talkSlug): void
+    public function claimTalk(string $eventSlug, string $talkSlug): void
     {
         if (!isset($_SESSION['user'])) {
             $thisUrl = $this->application->urlFor('talk-edit', ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
@@ -292,7 +292,7 @@ class TalkController extends BaseController
         $this->application->redirect($url);
     }
 
-    public function star($eventSlug, $talkSlug): void
+    public function star(string $eventSlug, string $talkSlug): void
     {
         $eventApi = $this->getEventApi();
         $event    = $eventApi->getByFriendlyUrl($eventSlug);
@@ -342,7 +342,7 @@ class TalkController extends BaseController
         return null;
     }
 
-    public function quickById($talkId)
+    public function quickById(int $talkId)
     {
         /** @var $eventDb EventDb**/
         $eventDb = $this->application->container->get(EventDb::class);
@@ -374,7 +374,7 @@ class TalkController extends BaseController
         return null;
     }
 
-    public function addComment($eventSlug, $talkSlug): void
+    public function addComment(string $eventSlug, string $talkSlug): void
     {
         $request = $this->application->request();
         $comment = trim(html_entity_decode($request->post('comment')));
@@ -440,7 +440,7 @@ class TalkController extends BaseController
         $this->application->redirect($url);
     }
 
-    public function reportComment($eventSlug, $talkSlug, $commentHash): void
+    public function reportComment(string $eventSlug, string $talkSlug, $commentHash): void
     {
         $eventApi         = $this->getEventApi();
         $event            = $eventApi->getByFriendlyUrl($eventSlug);
@@ -475,7 +475,7 @@ class TalkController extends BaseController
         $this->application->redirect($url);
     }
 
-    public function unlinkSpeaker($eventSlug, $talkSlug, $username): void
+    public function unlinkSpeaker(string $eventSlug, string $talkSlug, $username): void
     {
         $url = $this->application->urlFor('talk', ['eventSlug' => $eventSlug, 'talkSlug' => $talkSlug]);
 
@@ -517,7 +517,7 @@ class TalkController extends BaseController
         }
     }
 
-    public function deleteTalk($eventSlug, $talkSlug): void
+    public function deleteTalk(string $eventSlug, string $talkSlug): void
     {
         $thisUrl = $this->application->urlFor(
             'talk-delete',

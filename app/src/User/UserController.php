@@ -114,7 +114,6 @@ class UserController extends BaseController
      *
      * Should an error occur will this method append an error message to the form's error collection.
      *
-     * @param FormInterface $form
      *
      * @return mixed
      */

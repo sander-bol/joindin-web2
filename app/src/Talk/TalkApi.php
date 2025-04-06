@@ -11,7 +11,7 @@ class TalkApi extends BaseApi
 
     protected UserApi $userApi;
 
-    public function __construct($config, $accessToken, TalkDb $talkDb, UserApi $userApi)
+    public function __construct($config, ?string $accessToken, TalkDb $talkDb, UserApi $userApi)
     {
         parent::__construct($config, $accessToken);
         $this->talkDb  = $talkDb;
@@ -26,7 +26,7 @@ class TalkApi extends BaseApi
      */
     public function getCollection(string $talks_uri, array $queryParams = []): array
     {
-        if (empty($talks_uri)) {
+        if ($talks_uri === '' || $talks_uri === '0') {
             $talks_uri = $this->baseApiUrl . '/v2.1/talks';
         }
 
@@ -55,8 +55,6 @@ class TalkApi extends BaseApi
     }
 
     /**
-     * @param integer $talkId
-     *
      * @return TalkEntity|null
      */
     public function getTalkByTalkId(int $talkId)
@@ -163,7 +161,7 @@ class TalkApi extends BaseApi
         throw new Exception("Failed to add comment: " . $result);
     }
 
-    public function reportComment($uri): bool
+    public function reportComment(string $uri): bool
     {
         [$status, $result] = $this->apiPost($uri);
 
@@ -226,9 +224,6 @@ class TalkApi extends BaseApi
 
     /**
      * Add a talk to an event
-     *
-     * @param string $talksUri
-     * @param array $data
      */
     public function addTalk(string $talksUri, array $data)
     {
@@ -274,9 +269,6 @@ class TalkApi extends BaseApi
 
     /**
      * Edit a talk
-     *
-     * @param string $talkUri
-     * @param array $data
      */
     public function editTalk(string $talkUri, array $data)
     {
@@ -349,10 +341,9 @@ class TalkApi extends BaseApi
     /**
      * Add a talk to a track
      *
-     * @param string $talkTracksUri
      * @param string $trackUri
      */
-    public function addTalkToTrack($talkTracksUri, $trackUri): bool
+    public function addTalkToTrack(string $talkTracksUri, $trackUri): bool
     {
         $params = [
             'track_uri' => $trackUri,

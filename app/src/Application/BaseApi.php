@@ -62,7 +62,7 @@ abstract class BaseApi
 
     protected function apiGet(string $url, array $params = []): string
     {
-        $paramsString = count($params) > 0 ? '?' . http_build_query($params, '', '&') : '';
+        $paramsString = $params !== [] ? '?' . http_build_query($params, '', '&') : '';
 
         $streamContext = $this->getStreamContext('GET');
         $result        = file_get_contents($url . $paramsString, false, $streamContext);
@@ -70,6 +70,7 @@ abstract class BaseApi
         if (false === $result) {
             throw new \RuntimeException('Unable to connect to API');
         }
+
         if ($result === '') {
             throw new \RuntimeException('API returned an empty result');
         }
@@ -79,7 +80,7 @@ abstract class BaseApi
 
     protected function apiDelete(string $url, array $params = []): array
     {
-        $paramsString = count($params) > 0 ? '?' . http_build_query($params, '', '&') : '';
+        $paramsString = $params !== [] ? '?' . http_build_query($params, '', '&') : '';
 
         $streamContext = $this->getStreamContext('DELETE');
         $result        = file_get_contents($url . $paramsString, false, $streamContext);

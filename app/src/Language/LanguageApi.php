@@ -7,8 +7,6 @@ class LanguageApi extends BaseApi
 {
     /**
      * Retrieve list of languages from the API
-     *
-     * @return array
      */
     public function getLanguages(): array
     {

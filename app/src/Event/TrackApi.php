@@ -8,9 +8,7 @@ class TrackApi extends BaseApi
     /**
      * Retrieve a list of tracks from the API
      *
-     * @param string $url
      *
-     * @return array
      */
     public function getTracks(string $url): array
     {

@@ -42,11 +42,8 @@ class ApplicationController extends BaseController
 
     /**
      * Get latest current events
-     *
-     * @param int $start
-     * @param int $perPage
      */
-    public function getCurrentEvents($start, $perPage): array
+    public function getCurrentEvents(int $start, int $perPage): array
     {
         $eventApi = $this->getEventApi();
         return $eventApi->getEvents($perPage, $start, 'upcoming');
@@ -136,17 +133,11 @@ class ApplicationController extends BaseController
         ]);
     }
 
-    /**
-     * @return EventApi
-     */
     private function getEventApi(): EventApi
     {
         return $this->application->container->get(EventApi::class);
     }
 
-    /**
-     * @return ContactApi
-     */
     private function getContactApi(): ContactApi
     {
         return $this->application->container->get(ContactApi::class);

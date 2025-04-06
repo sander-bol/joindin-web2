@@ -38,9 +38,6 @@ class EventScheduler
 
     /**
      * Retrieves talk collection from API
-     *
-     * @param string $talks_uri
-     * @return array
      */
     public function getTalks(string $talks_uri): array
     {
@@ -50,13 +47,12 @@ class EventScheduler
     /**
      * Get an array of populated EventSchedulerDay objects
      *
-     * @param array $talks
      *
      * @return array Array of EventSchedulerDay objects
      */
     public function getEventDays(array $talks): array
     {
-        if (empty($talks) || empty($talks['talks'])) {
+        if ($talks === [] || empty($talks['talks'])) {
             return [];
         }
 
@@ -113,8 +109,6 @@ class EventScheduler
     /**
      * Get a multi-dimensional indexed array of unique
      * track names by date
-     *
-     * @param array $talks
      */
     protected function getTracksByDay(array $talks): array
     {
