@@ -10,7 +10,7 @@ class LanguageApi extends BaseApi
      *
      * @return array
      */
-    public function getLanguages()
+    public function getLanguages(): array
     {
         $url                           = $this->baseApiUrl . '/v2.1/languages';
         $queryParams['resultsperpage'] = 0;

@@ -6,11 +6,13 @@ use Application\BaseApi;
 class TrackApi extends BaseApi
 {
     /**
-     * Retrieve list of tracks from the API
+     * Retrieve a list of tracks from the API
+     *
+     * @param string $url
      *
      * @return array
      */
-    public function getTracks(string $url)
+    public function getTracks(string $url): array
     {
         $queryParams['resultsperpage'] = 0;
 
@@ -36,11 +38,8 @@ class TrackApi extends BaseApi
 
     /**
      * Update a track
-     *
-     * @param  string $trackUri
-     * @param  array $data
      */
-    public function updateTrack($trackUri, $data): bool
+    public function updateTrack(string $trackUri, array $data): bool
     {
         $params = [
             'track_name'        => $data['track_name'],
@@ -48,7 +47,7 @@ class TrackApi extends BaseApi
         ];
 
         [$status, $result, $headers] = $this->apiPut($trackUri, $params);
-        if ($status == 204) {
+        if ($status === 204) {
             return true;
         }
 
@@ -60,11 +59,8 @@ class TrackApi extends BaseApi
 
     /**
      * Add a track to an event's tracks collection
-     *
-     * @param  string $eventTracksUri
-     * @param  array $data
      */
-    public function addTrack($eventTracksUri, $data): bool
+    public function addTrack(string $eventTracksUri, array $data): bool
     {
         $params = [
             'track_name'        => $data['track_name'],
@@ -72,7 +68,7 @@ class TrackApi extends BaseApi
         ];
 
         [$status, $result, $headers] = $this->apiPost($eventTracksUri, $params);
-        if ($status == 201) {
+        if ($status === 201) {
             return true;
         }
 
@@ -88,7 +84,7 @@ class TrackApi extends BaseApi
     public function deleteTrack(string $trackUri): bool
     {
         [$status, $result, $headers] = $this->apiDelete($trackUri);
-        if ($status == 204) {
+        if ($status === 204) {
             return true;
         }
 

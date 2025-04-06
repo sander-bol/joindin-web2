@@ -1,4 +1,5 @@
 <?php
+
 namespace Event;
 
 use Application\BaseEntity;
@@ -8,11 +9,7 @@ class EventEntity extends BaseEntity
 {
     public function getName()
     {
-        if (!isset($this->data->name)) {
-            return null;
-        }
-
-        return $this->data->name;
+        return $this->data->name ?? null;
     }
 
     public function setName($name): self
@@ -24,20 +21,16 @@ class EventEntity extends BaseEntity
 
     public function getFullTimezone(): ?string
     {
-        if (!isset($this->data->tz_continent) || !isset($this->data->tz_place)) {
+        if ( ! isset($this->data->tz_continent) || ! isset($this->data->tz_place)) {
             return null;
         }
 
         return $this->data->tz_continent . "/" . $this->data->tz_place;
     }
 
-    public function getIcon()
+    public function getIcon(): ?string
     {
-        if (!isset($this->data->icon)) {
-            return null;
-        }
-
-        return $this->data->icon;
+        return $this->data->icon ?? null;
     }
 
     public function setIcon($icon): void
@@ -47,11 +40,7 @@ class EventEntity extends BaseEntity
 
     public function getStartDate()
     {
-        if (!isset($this->data->start_date)) {
-            return null;
-        }
-
-        return $this->data->start_date;
+        return $this->data->start_date ?? null;
     }
 
     public function setStartDate($date): self
@@ -61,13 +50,19 @@ class EventEntity extends BaseEntity
         return $this;
     }
 
-    public function getEndDate()
+    public function getEndDate(): ?string
     {
-        if (!isset($this->data->end_date)) {
+        return $this->data->end_date ?? null;
+    }
+
+    public function getEndDateObject(): ?\DateTimeImmutable
+    {
+        $string = $this->getEndDate();
+        if ($string === null) {
             return null;
         }
 
-        return $this->data->end_date;
+        return \DateTimeImmutable::createFromFormat(DateTime::ISO8601, $string);
     }
 
     public function setEndDate($date): self
@@ -79,11 +74,7 @@ class EventEntity extends BaseEntity
 
     public function getLocation()
     {
-        if (!isset($this->data->location)) {
-            return null;
-        }
-
-        return $this->data->location;
+        return $this->data->location ?? null;
     }
 
     public function setLocation($location): void
@@ -91,13 +82,9 @@ class EventEntity extends BaseEntity
         $this->data->location = $location;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
-        if (!isset($this->data->description)) {
-            return null;
-        }
-
-        return $this->data->description;
+        return $this->data->description ?? null;
     }
 
     public function setDescription($description): self
@@ -108,18 +95,19 @@ class EventEntity extends BaseEntity
     }
 
     /**
-     * @return array|null
+     * @return array
      */
-    public function getTags()
+    public function getTags(): array
     {
-        if (!isset($this->data->tags)) {
-            return null;
-        }
-
-        return $this->data->tags;
+        return $this->data->tags ?? [];
     }
 
-    public function setTags($tags): self
+    /**
+     * @param array<string> $tags
+     *
+     * @return $this
+     */
+    public function setTags(array $tags): self
     {
         $this->data->tags = $tags;
 
@@ -128,11 +116,7 @@ class EventEntity extends BaseEntity
 
     public function getLatitude()
     {
-        if (!isset($this->data->latitude)) {
-            return null;
-        }
-
-        return $this->data->latitude;
+        return $this->data->latitude ?? null;
     }
 
     public function setLatitude($latitude): self
@@ -144,11 +128,7 @@ class EventEntity extends BaseEntity
 
     public function getLongitude()
     {
-        if (!isset($this->data->longitude)) {
-            return null;
-        }
-
-        return $this->data->longitude;
+        return $this->data->longitude ?? null;
     }
 
     public function setLongitude($longitude): self
@@ -160,119 +140,75 @@ class EventEntity extends BaseEntity
 
     public function getWebsiteAddress()
     {
-        if (!isset($this->data->href)) {
-            return null;
-        }
-
-        return $this->data->href;
+        return $this->data->href ?? null;
     }
 
     public function getAttendeeCount()
     {
-        if (!isset($this->data->attendee_count)) {
-            return null;
-        }
-
-        return $this->data->attendee_count;
+        return $this->data->attendee_count ?? null;
     }
 
     public function getCommentsCount()
     {
-        if (!isset($this->data->event_comments_count)) {
-            return null;
-        }
-
-        return $this->data->event_comments_count;
+        return $this->data->event_comments_count ?? null;
     }
 
     public function getCommentsUri()
     {
-        if (!isset($this->data->comments_uri)) {
-            return null;
-        }
-
-        return $this->data->comments_uri;
+        return $this->data->comments_uri ?? null;
     }
 
     public function getApiUriToMarkAsAttending()
     {
-        if (!isset($this->data->attending_uri)) {
-            return null;
-        }
-
-        return $this->data->attending_uri;
+        return $this->data->attending_uri ?? null;
     }
 
     public function getTalksUri()
     {
-        if (!isset($this->data->talks_uri)) {
-            return null;
-        }
-
-        return $this->data->talks_uri;
+        return $this->data->talks_uri ?? null;
     }
 
     public function getUri()
     {
-        if (!isset($this->data->uri)) {
-            return null;
-        }
-
-        return $this->data->uri;
+        return $this->data->uri ?? null;
     }
 
     public function getVerboseUri()
     {
-        if (!isset($this->data->verbose_uri)) {
-            return null;
-        }
-
-        return $this->data->verbose_uri;
+        return $this->data->verbose_uri ?? null;
     }
 
     public function isAttending()
     {
-        if (!isset($this->data->attending)) {
-            return null;
-        }
-
-        return $this->data->attending;
+        return $this->data->attending ?? null;
     }
 
-    public function areCommentsEnabled()
+    public function areCommentsEnabled(): bool
     {
-        if (!isset($this->data->comments_enabled)) {
-            return false;
-        }
-
-        return (bool)$this->data->comments_enabled;
+        return (bool)($this->data->comments_enabled ?? false);
     }
 
     public function isPastEvent(): bool
     {
-        $endDate = DateTime::createFromFormat(DateTime::ISO8601, $this->getEndDate());
-        $now     = new DateTime(null, $endDate->getTimezone());
+        $endDate = $this->getEndDateObject();
+        if ( ! $endDate) {
+            return false;
+        }
+
+        $now = new \DateTimeImmutable(null, $endDate->getTimezone());
         $now->setTime(0, 0, 0);
 
         return ($endDate < $now);
     }
 
-    public function getUrlFriendlyName()
+    public function getUrlFriendlyName(): ?string
     {
-        if (!isset($this->data->url_friendly_name)) {
-            return null;
-        }
-
-        return $this->data->url_friendly_name;
+        return $this->data->url_friendly_name ?? null;
     }
 
-    public function getStub()
+    public function getStub(): ?string
     {
-        if (!isset($this->data->stub)) {
-            return null;
-        }
-
-        return $this->data->stub;
+        return $this->data->stub ?? null;
     }
 
     public function setStub($stub): void
@@ -287,24 +223,16 @@ class EventEntity extends BaseEntity
      */
     public function getTimezone(): ?string
     {
-        if (! isset($this->data->tz_continent)
-            || ! isset($this->data->tz_place)
-            || ! $this->data->tz_continent
-            || ! $this->data->tz_place
-        ) {
+        if (empty($this->data->tz_continent) || empty($this->data->tz_place)) {
             return null;
         }
 
         return $this->data->tz_continent . '/' . $this->data->tz_place;
     }
 
-    public function getAllTalkCommentsUri()
+    public function getAllTalkCommentsUri(): ?string
     {
-        if (!isset($this->data->all_talk_comments_uri)) {
-            return null;
-        }
-
-        return $this->data->all_talk_comments_uri;
+        return $this->data->all_talk_comments_uri ?? null;
     }
 
     /**
@@ -313,6 +241,7 @@ class EventEntity extends BaseEntity
     public function getTzContinent(): string
     {
         $tz = explode('/', $this->getTimezone());
+
         return $tz[0];
     }
 
@@ -321,7 +250,7 @@ class EventEntity extends BaseEntity
      *
      * @param string $tzContinent
      */
-    public function setTzContinent($tzContinent): void
+    public function setTzContinent(string $tzContinent): void
     {
         $this->data->tz_continent = $tzContinent;
     }
@@ -332,11 +261,8 @@ class EventEntity extends BaseEntity
     public function getTzPlace(): string
     {
         $tz = explode('/', $this->getTimezone());
-        if (! isset($tz[1])) {
-            return '';
-        }
 
-        return $tz[1];
+        return $tz[1] ?? '';
     }
 
     /**
@@ -344,7 +270,7 @@ class EventEntity extends BaseEntity
      *
      * @param string $tzPlace
      */
-    public function setTzPlace($tzPlace): void
+    public function setTzPlace(string $tzPlace): void
     {
         $this->data->tz_place = $tzPlace;
     }
@@ -356,7 +282,7 @@ class EventEntity extends BaseEntity
      *
      * @return string
      */
-    public function getHref()
+    public function getHref(): string
     {
         return $this->data->href;
     }
@@ -366,49 +292,29 @@ class EventEntity extends BaseEntity
      *
      * @param string $href
      */
-    public function setHref($href): void
+    public function setHref(string $href): void
     {
         $this->data->href = $href;
     }
 
-    /**
-     * Wrapper to getCallForPapersStartDate
-     * This is also required by Symfonys PropertyAccessor. As
-     * ```getCallForPaperStartDate``` has been in existence before creating this
-     * method it simply calls this one.
-     *
-     * @return mixed
-     */
-    public function getCfPStartDate()
+    public function getCfPStartDate(): ?string
     {
-        return isset($this->data->cfp_start_date) && $this->data->cfp_start_date
-            ? $this->data->cfp_start_date
-            : null;
+        return ! empty($this->data->cfp_start_date) ? $this->data->cfp_start_date : null;
     }
 
-    public function setCfpStartDate($date): self
+    public function setCfpStartDate(string $date): self
     {
         $this->data->cfp_start_date = $date;
 
         return $this;
     }
 
-    /**
-     * Wrapper to getCallForPapersEndDate
-     * This is also required by Symfonys PropertyAccessor. As
-     * ```getCallForPapesEndDate``` has been in existence before creating this
-     * method it simply calls this one.
-     *
-     * @return mixed
-     */
     public function getCfPEndDate()
     {
-        return isset($this->data->cfp_end_date) && $this->data->cfp_end_date
-            ? $this->data->cfp_end_date
-            : null;
+        return ! empty($this->data->cfp_end_date) ? $this->data->cfp_end_date : null;
     }
 
-    public function setCfpEndDate($date): self
+    public function setCfpEndDate(string $date): self
     {
         $this->data->cfp_end_date = $date;
 
@@ -420,14 +326,12 @@ class EventEntity extends BaseEntity
      *
      * @return string
      */
-    public function getCfpUrl()
+    public function getCfpUrl(): ?string
     {
-        return isset($this->data->cfp_url) && $this->data->cfp_url
-            ? $this->data->cfp_url
-            : null;
+        return ! empty($this->data->cfp_url) ? $this->data->cfp_url : null;
     }
 
-    public function setCfpUrl($cfpUrl): self
+    public function setCfpUrl(string $cfpUrl): self
     {
         $this->data->cfp_url = $cfpUrl;
 
@@ -436,34 +340,27 @@ class EventEntity extends BaseEntity
 
     /**
      * Returns the status of the CFP
-     * Baed on start and end dates
+     * Based on start and end dates
      */
     public function getCfpStatus(): string
     {
-        if (!empty($this->getCfpStartDate()) && !empty($this->getCfpEndDate())) {
-            $startDate = DateTime::createFromFormat(DateTime::ISO8601, $this->getCfpStartDate());
-            $endDate   = DateTime::createFromFormat(DateTime::ISO8601, $this->getCfpEndDate());
-            $now       = new DateTime(null, $endDate->getTimezone());
-            $now->setTime(0, 0, 0);
-
-            switch ($now) {
-                case $now < $startDate:
-                    $return = 'Pending';
-                    break;
-
-                case $now >= $startDate && $now <= $endDate:
-                    $return = 'Open';
-                    break;
-
-                default:
-                    $return = 'Closed';
-                    break;
-            }
-        } else {
-            $return = '';
+        if (empty($this->getCfpStartDate()) || empty($this->getCfpEndDate())) {
+            return '';
         }
 
-        return $return;
+        $startDate = DateTime::createFromFormat(DateTime::ISO8601, $this->getCfpStartDate());
+        $endDate   = DateTime::createFromFormat(DateTime::ISO8601, $this->getCfpEndDate());
+        $now       = new DateTime(null, $endDate->getTimezone());
+        $now->setTime(0, 0, 0);
+
+        if ($now < $startDate) {
+            return 'Pending';
+        }
+        if ($now <= $endDate) {
+            return 'Open';
+        }
+
+        return 'Closed';
     }
 
     public function getId()
@@ -473,26 +370,22 @@ class EventEntity extends BaseEntity
 
     public function toArray(): array
     {
-        return (array) $this->data;
+        return (array)$this->data;
     }
 
-    public function getEventSlug()
+    public function getEventSlug(): ?string
     {
         return $this->getUrlFriendlyName();
     }
 
-    public function getCanEdit()
+    public function getCanEdit(): bool
     {
         return $this->data->can_edit;
     }
 
-    public function getHosts()
+    public function getHosts(): array
     {
-        if (!isset($this->data->hosts)) {
-            return [];
-        }
-
-        return $this->data->hosts;
+        return $this->data->hosts ?? [];
     }
 
     public function getAverageRating()
@@ -500,54 +393,42 @@ class EventEntity extends BaseEntity
         return $this->data->event_average_rating;
     }
 
-    public function getApprovalUri()
+    public function getApprovalUri(): string
     {
         return $this->data->approval_uri;
     }
 
-    public function getReportedEventCommentsUri()
+    public function getReportedEventCommentsUri(): string
     {
-        if (isset($this->data->reported_comments_uri)) {
-            return $this->data->reported_comments_uri;
-        } else {
-            return false;
-        }
+        return $this->data->reported_comments_uri ?? false;
     }
 
-    public function getReportedTalkCommentsUri()
+    public function getReportedTalkCommentsUri(): string
     {
-        if (isset($this->data->reported_talk_comments_uri)) {
-            return $this->data->reported_talk_comments_uri;
-        } else {
-            return false;
-        }
+        return $this->data->reported_talk_comments_uri ?? false;
     }
 
-    public function getPendingClaimsUri()
+    public function getPendingClaimsUri(): string
     {
-        if (isset($this->data->pending_claims_uri)) {
-            return $this->data->pending_claims_uri;
-        } else {
-            return false;
-        }
+        return $this->data->pending_claims_uri ?? false;
     }
 
-    public function getAttendeesUri()
+    public function getAttendeesUri(): string
     {
         return $this->data->attendees_uri;
     }
 
-    public function getImagesUri()
+    public function getImagesUri(): string
     {
         return $this->data->images_uri;
     }
 
-    public function getTracksUri()
+    public function getTracksUri(): string
     {
         return $this->data->tracks_uri;
     }
 
-    public function getHostsUri()
+    public function getHostsUri(): string
     {
         return $this->data->hosts_uri;
     }
@@ -560,14 +441,9 @@ class EventEntity extends BaseEntity
         return null;
     }
 
-    public function getSmallImage()
+    public function getSmallImage(): string
     {
-        if (!isset($this->data->images->small)) {
-            // use our default image
-            return "/img/event_icons/none.png";
-        }
-
-        return $this->data->images->small->url;
+        return $this->data->images->small ?? "/img/event_icons/none.png";
     }
 
     public function getPending()

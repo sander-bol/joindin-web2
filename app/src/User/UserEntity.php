@@ -6,170 +6,80 @@ use Application\BaseEntity;
 
 class UserEntity extends BaseEntity
 {
-    /**
-     * Getter for username
-     *
-     * @return mixed
-     */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->data->username;
     }
 
-    /**
-     * Getter for full_name
-     *
-     * @return mixed
-     */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->data->full_name;
     }
 
-    /**
-     * Getter for twitter_username
-     *
-     * @return mixed
-     */
-    public function getTwitterUsername()
+    public function getTwitterUsername(): ?string
     {
         return str_replace('@', '', $this->data->twitter_username);
     }
 
-    /**
-     * Getter for biography
-     *
-     * @return mixed
-     */
-    public function getBiography()
-    {
-        if (!isset($this->data->biography)) {
-            return null;
-        }
 
-        return $this->data->biography;
+    public function getBiography(): ?string
+    {
+        return $this->data->biography ?? null;
     }
 
-    /**
-     * Getter for email
-     *
-     * @return mixed
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
-        if (!isset($this->data->email)) {
-            return null;
-        }
-
-        return $this->data->email;
+        return $this->data->email ?? null;
     }
 
-    /**
-     * Getter for uri
-     *
-     * @return mixed
-     */
-    public function getUri()
+    public function getUri(): string
     {
         return $this->data->uri;
     }
 
-    /**
-     * Getter for verbose_uri
-     *
-     * @return mixed
-     */
-    public function getVerboseUri()
+    public function getVerboseUri(): string
     {
         return $this->data->verbose_uri;
     }
 
-    /**
-     * Getter for website_uri
-     *
-     * @return mixed
-     */
-    public function getWebsiteUri()
+    public function getWebsiteUri(): string
     {
         return $this->data->website_uri;
     }
 
-    /**
-     * Getter for talks_uri
-     *
-     * @return mixed
-     */
-    public function getTalksUri()
+    public function getTalksUri(): string
     {
         return $this->data->talks_uri;
     }
 
-    /**
-     * Getter for attended_events_uri
-     *
-     * @return mixed
-     */
-    public function getAttendedEventsUri()
+    public function getAttendedEventsUri(): string
     {
         return $this->data->attended_events_uri;
     }
 
-    /**
-     * Getter for hosted_events_uri
-     *
-     * @return mixed
-     */
-    public function getHostedEventsUri()
+    public function getHostedEventsUri(): string
     {
         return $this->data->hosted_events_uri;
     }
 
-    /**
-     * Getter for talk_comments_uri
-     *
-     * @return mixed
-     */
-    public function getTalkCommentsUri()
+    public function getTalkCommentsUri(): string
     {
         return $this->data->talk_comments_uri;
     }
 
-    /**
-     * Getter for gravatar_hash
-     *
-     * @return string|null
-     */
-    public function getGravatarHash()
+    public function getGravatarHash(): ?string
     {
         return $this->data->gravatar_hash;
     }
 
-    /**
-     * Getter for can_edit
-     *
-     * @return mixed
-     */
-    public function getCanEdit()
+    public function getCanEdit(): bool
     {
-        if (!isset($this->data->can_edit)) {
-            return false;
-        }
-
-        return $this->data->can_edit;
+        return $this->data->can_edit ?? false;
     }
 
-    /**
-     * Getter for admin
-     *
-     * @return mixed
-     */
-    public function getAdmin()
+    public function getAdmin(): bool
     {
-        if (!isset($this->data->admin)) {
-            return false;
-        }
-
-        return $this->data->admin;
+        return $this->data->admin ?? false;
     }
 
     public function getId(): string

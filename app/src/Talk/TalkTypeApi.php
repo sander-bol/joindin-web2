@@ -10,7 +10,7 @@ class TalkTypeApi extends BaseApi
      *
      * @return array
      */
-    public function getTalkTypes()
+    public function getTalkTypes(): array
     {
         $url                           = $this->baseApiUrl . '/v2.1/talk_types';
         $queryParams['resultsperpage'] = 0;

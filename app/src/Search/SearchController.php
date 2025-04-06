@@ -21,12 +21,12 @@ class SearchController extends BaseController
     /**
      * @var integer The number of events / talks to fetch from the API
      */
-    protected $limit;
+    protected int $limit;
 
     /**
      * @var integer The number of search results to show per page
      */
-    protected $itemsPerPage = 10;
+    protected int $itemsPerPage = 10;
 
     public function __construct(Slim $app)
     {
@@ -44,7 +44,7 @@ class SearchController extends BaseController
      *
      * @param string $keyword
      */
-    protected function sanitizeKeyword($keyword): ?string
+    protected function sanitizeKeyword(string $keyword): ?string
     {
         return preg_replace("/[^A-Za-z0-9-_[:space:]]/", '', $keyword);
     }
@@ -54,7 +54,7 @@ class SearchController extends BaseController
      *
      * @param string $tag
      */
-    protected function sanitizeTag($tag): ?string
+    protected function sanitizeTag(string $tag): ?string
     {
         return preg_replace("/[^A-Za-z0-9]/", '', $tag);
     }
@@ -136,11 +136,11 @@ class SearchController extends BaseController
     }
 
     /**
-     * @param int    $page
+     * @param int $page
      * @param string $keyword
      * @param string $tag
      */
-    private function searchEventsByTitleAndTag($page, ?string $keyword, ?string $tag = null): array
+    private function searchEventsByTitleAndTag(int $page, ?string $keyword, ?string $tag = null): array
     {
         $apiQueryParams = [];
 
@@ -164,10 +164,10 @@ class SearchController extends BaseController
     }
 
     /**
-     * @param int    $page
+     * @param int $page
      *
      */
-    private function searchTalksByTitle($page, string $keyword): array
+    private function searchTalksByTitle(int $page, string $keyword): array
     {
         $apiQueryParams = [
             'title'          => $keyword,
@@ -181,11 +181,7 @@ class SearchController extends BaseController
         );
     }
 
-    /**
-     * @param int    $page
-     *
-     */
-    private function searchUsersByKeyword($page, string $keyword): array
+    private function searchUsersByKeyword(int $page, string $keyword): array
     {
         $apiQueryParams = [
             'keyword'        => $keyword,
@@ -200,7 +196,7 @@ class SearchController extends BaseController
     /**
      * @return EventApi
      */
-    protected function getEventApi()
+    protected function getEventApi(): EventApi
     {
         return $this->application->container->get(EventApi::class);
     }
@@ -208,7 +204,7 @@ class SearchController extends BaseController
     /**
      * @return TalkApi
      */
-    protected function getTalkApi()
+    protected function getTalkApi(): TalkApi
     {
         return $this->application->container->get(TalkApi::class);
     }
@@ -216,7 +212,7 @@ class SearchController extends BaseController
     /**
      * @return UserApi
      */
-    private function getUserApi()
+    private function getUserApi(): UserApi
     {
         return $this->application->container->get(UserApi::class);
     }
@@ -239,7 +235,7 @@ class SearchController extends BaseController
         return $events;
     }
 
-    
+
     private function combinePaginationData(array $paginations): array
     {
         $result = [

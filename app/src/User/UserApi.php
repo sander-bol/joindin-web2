@@ -66,7 +66,7 @@ class UserApi extends BaseApi
     {
         [$status, $result, $headers] = $this->apiPost($this->baseApiUrl . '/v2.1/users', $data);
 
-        if ($status == 201) {
+        if ($status === 201) {
             // user URI in $headers['location'] but the user is pending so it's not useful
             return true;
         }
@@ -92,7 +92,7 @@ class UserApi extends BaseApi
 
         [$status, $result, $headers] = $this->apiPost($this->baseApiUrl . '/v2.1/users/verifications', $data);
 
-        if ($status == 204) {
+        if ($status === 204) {
             return true;
         }
 
@@ -114,7 +114,7 @@ class UserApi extends BaseApi
 
         [$status, $result, $headers] = $this->apiPost($this->baseApiUrl . '/v2.1/emails/verifications', $data);
 
-        if ($status == 202) {
+        if ($status === 202) {
             return true;
         }
 
@@ -192,7 +192,7 @@ class UserApi extends BaseApi
             $data
         );
 
-        if ($status == 202) {
+        if ($status === 202) {
             return true;
         }
 
@@ -219,7 +219,7 @@ class UserApi extends BaseApi
             $data
         );
 
-        if ($status == 202) {
+        if ($status === 202) {
             return true;
         }
 
@@ -243,7 +243,7 @@ class UserApi extends BaseApi
         [$status, $result, $headers] = $this->apiPut($uri, $data);
 
         // if successful, return event entity represented by the URL in the Location header
-        if ($status == 204) {
+        if ($status === 204) {
             // Retrieve a new copy of the user
             return $this->getUser($uri);
         }
@@ -256,7 +256,7 @@ class UserApi extends BaseApi
     {
         [$status, $result] = $this->apiDelete($uri, []);
 
-        if ($status == 204) {
+        if ($status === 204) {
             return true;
         }
 
@@ -281,7 +281,7 @@ class UserApi extends BaseApi
 
         [$status, $result, $headers] = $this->apiPost($this->baseApiUrl . '/v2.1/users/passwords', $data);
 
-        if ($status == 204) {
+        if ($status === 204) {
             return true;
         }
 

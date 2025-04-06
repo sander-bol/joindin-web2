@@ -9,7 +9,7 @@ class ClientApi extends BaseApi
     /**
      * Get all clients associated with the current user
      */
-    public function getCollection($queryParams): array
+    public function getCollection(array $queryParams): array
     {
         $talks_uri = $this->baseApiUrl . '/v2.1/applications';
 
@@ -114,7 +114,7 @@ class ClientApi extends BaseApi
     {
         [$status, $result, $headers] = $this->apiDelete($clientUri);
 
-        if ($status != 204) {
+        if ($status !== 204) {
             $decoded = json_decode($result);
             if (is_array($decoded)) {
                 $result = current($decoded);

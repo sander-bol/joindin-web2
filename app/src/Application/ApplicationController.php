@@ -139,7 +139,7 @@ class ApplicationController extends BaseController
     /**
      * @return EventApi
      */
-    private function getEventApi()
+    private function getEventApi(): EventApi
     {
         return $this->application->container->get(EventApi::class);
     }
@@ -147,7 +147,7 @@ class ApplicationController extends BaseController
     /**
      * @return ContactApi
      */
-    private function getContactApi()
+    private function getContactApi(): ContactApi
     {
         return $this->application->container->get(ContactApi::class);
     }

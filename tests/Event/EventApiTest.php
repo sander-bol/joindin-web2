@@ -175,7 +175,7 @@ class EventApiTest extends TestCase
                     'rating'  => 3,
                 ]
             )
-            ->will($this->returnValue(['201', 'result']));
+            ->will($this->returnValue([201, 'result']));
 
         // The test
         $this->assertTrue(
@@ -219,7 +219,7 @@ class EventApiTest extends TestCase
                     'rating'  => 0,
                 ]
             )
-            ->will($this->returnValue(['500', 'no result']));
+            ->will($this->returnValue([500, 'no result']));
 
         // The test
         $this->expectException('Exception');
@@ -250,7 +250,7 @@ class EventApiTest extends TestCase
             ->with(
                 'http://example.com/events/1/attending'
             )
-            ->will($this->returnValue(['500', 'no result']));
+            ->will($this->returnValue([500, 'no result']));
 
         $this->expectException('Exception');
         $mockEventApi->attend($mockEventObj);

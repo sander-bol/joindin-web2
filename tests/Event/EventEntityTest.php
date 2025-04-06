@@ -7,7 +7,7 @@ use stdClass;
 
 class EventEntityTest extends TestCase
 {
-    private $eventData;
+    private stdClass $eventData;
 
     protected function setUp(): void
     {
@@ -20,7 +20,7 @@ class EventEntityTest extends TestCase
         $this->eventData->end_date              = "Test event end date";
         $this->eventData->location              = "Test event location";
         $this->eventData->description           = "Test event description";
-        $this->eventData->tags                  = "Test event tags";
+        $this->eventData->tags                  = ["Test event tags"];
         $this->eventData->latitude              = "Test event latitude";
         $this->eventData->longitude             = "Test event longitude";
         $this->eventData->href                  = "Test event href";
@@ -72,10 +72,7 @@ class EventEntityTest extends TestCase
             "Test event description"
         );
 
-        $this->assertEquals(
-            $event->getTags(),
-            "Test event tags"
-        );
+        $this->assertEquals($event->getTags(), ["Test event tags"]);
 
         $this->assertEquals(
             $event->getLatitude(),

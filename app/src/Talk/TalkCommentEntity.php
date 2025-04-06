@@ -6,35 +6,23 @@ use stdClass;
 
 class TalkCommentEntity extends BaseCommentEntity
 {
-    public function getTalkTitle()
+    public function getTalkTitle(): ?string
     {
-        if (!isset($this->data->talk_title)) {
-            return null;
-        }
-
-        return $this->data->talk_title;
+        return $this->data->talk_title ?? null;
     }
 
-    public function getTalkUri()
+    public function getTalkUri(): ?string
     {
-        if (!isset($this->data->talk_uri)) {
-            return null;
-        }
-
-        return $this->data->talk_uri;
+        return $this->data->talk_uri ?? null;
     }
 
-    public function getCommentUri()
+    public function getCommentUri(): ?string
     {
-        if (!isset($this->data->uri)) {
-            return null;
-        }
-
-        return $this->data->uri;
+        return $this->data->uri ?? null;
     }
 
-    public function canRateTalk($user_uri): bool
+    public function canRateTalk(string $user_uri): bool
     {
-        return !(isset($this->data->user_uri) && $this->data->user_uri == $user_uri);
+        return !(isset($this->data->user_uri) && $this->data->user_uri === $user_uri);
     }
 }

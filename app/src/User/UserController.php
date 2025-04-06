@@ -64,6 +64,7 @@ class UserController extends BaseController
             $clientId     = $config['client_id'];
             $clientSecret = $config['client_secret'];
 
+            /** @var $authApi AuthApi**/
             $authApi = $this->application->container->get(AuthApi::class);
             $result  = $authApi->login($username, $password, $clientId, $clientSecret);
 
@@ -117,7 +118,7 @@ class UserController extends BaseController
      *
      * @return mixed
      */
-    protected function registerUserUsingForm($form)
+    protected function registerUserUsingForm(FormInterface $form)
     {
         $values  = $form->getData();
         $userApi = $this->getUserApi();
@@ -220,9 +221,9 @@ class UserController extends BaseController
     /**
      * User profile page
      *
-     * @param  string $username User's username
+     * @param string $username User's username
      */
-    public function profile($username): void
+    public function profile(string $username): void
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUsername($username);
@@ -263,10 +264,7 @@ class UserController extends BaseController
             $user->getHostedEventsUri(),
             ['verbose' => 'yes', 'resultsperpage' => 5]
         );
-        $hostedEvents = false;
-        if (isset($hostedEventsCollection['events'])) {
-            $hostedEvents = $hostedEventsCollection['events'];
-        }
+        $hostedEvents = $hostedEventsCollection['events'] ?? false;
 
         $talkComments = $talkApi->getComments($user->getTalkCommentsUri(), true, 5);
         foreach ($talkComments as $comment) {
@@ -312,7 +310,7 @@ class UserController extends BaseController
      * @param  string $username User's username
      * @return void
      */
-    public function profileTalks($username): void
+    public function profileTalks(string $username): void
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUsername($username);
@@ -355,7 +353,7 @@ class UserController extends BaseController
      * @param  string $username User's username
      * @return void
      */
-    public function profileEvents($username): void
+    public function profileEvents(string $username): void
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUsername($username);
@@ -388,7 +386,7 @@ class UserController extends BaseController
      * @param  string $username User's username
      * @return void
      */
-    public function profileHosted($username): void
+    public function profileHosted(string $username): void
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUsername($username);
@@ -422,7 +420,7 @@ class UserController extends BaseController
      * @param  string $username User's username
      * @return void
      */
-    public function profileComments($username): void
+    public function profileComments(string $username): void
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUsername($username);
@@ -475,7 +473,7 @@ class UserController extends BaseController
         );
     }
 
-    protected function lookupEventInfo($eventUri): array
+    protected function lookupEventInfo(string $eventUri): array
     {
         $eventDb  = $this->getEventDb();
         $eventApi = $this->getEventApi();
@@ -583,7 +581,7 @@ class UserController extends BaseController
      *
      * @param  string $username User's username
      */
-    public function profileEdit($username): void
+    public function profileEdit(string $username): void
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUsername($username);
@@ -668,7 +666,7 @@ class UserController extends BaseController
         );
     }
 
-    public function userDelete($username): void
+    public function userDelete(string $username): void
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUsername($username);
@@ -828,7 +826,7 @@ class UserController extends BaseController
         $this->application->redirect('/');
     }
 
-    public function redirectFromId($userId)
+    public function redirectFromId(string $userId)
     {
         $userApi = $this->getUserApi();
         $user    = $userApi->getUserByUserId($userId);

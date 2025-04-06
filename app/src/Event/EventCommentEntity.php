@@ -5,12 +5,8 @@ use Application\BaseCommentEntity;
 
 class EventCommentEntity extends BaseCommentEntity
 {
-    public function getCommentUri()
+    public function getCommentUri(): ?string
     {
-        if (!isset($this->data->comment_uri)) {
-            return null;
-        }
-
-        return $this->data->comment_uri;
+        return $this->data->comment_uri ?? null;
     }
 }

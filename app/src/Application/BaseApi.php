@@ -3,28 +3,27 @@ namespace Application;
 
 abstract class BaseApi
 {
-    protected $baseApiUrl;
+    protected string $baseApiUrl;
 
-    protected $accessToken;
+    protected ?string $accessToken;
 
-    protected $proxy;
+    protected ?string $proxy;
 
-    public function __construct($config, $accessToken)
+    public function __construct($config, ?string $accessToken = null)
     {
-        $this->baseApiUrl = $config['apiUrl'] ?? null;
-        if ($this->baseApiUrl === null) {
-            throw new \ConfigException('API URL not set');
+        if (!is_string($config['apiUrl'] ?? null)) {
+            throw new \InvalidArgumentException('Configuration array is required');
         }
 
+        $this->baseApiUrl = $config['apiUrl'];
         $this->proxy      = $config['proxy'] ?? null;
         $this->accessToken = $accessToken;
     }
 
     /**
-     *
      * @return resource
      */
-    private function getStreamContext(string $httpMethod, string $content = null): resource
+    private function getStreamContext(string $httpMethod, string $content = null)
     {
         $contextOpts = [
             'http' => [
@@ -61,7 +60,7 @@ abstract class BaseApi
         return stream_context_create($contextOpts);
     }
 
-    protected function apiGet(string $url, $params = []): string
+    protected function apiGet(string $url, array $params = []): string
     {
         $paramsString = count($params) > 0 ? '?' . http_build_query($params, '', '&') : '';
 
@@ -78,7 +77,7 @@ abstract class BaseApi
         return $result;
     }
 
-    protected function apiDelete(string $url, $params = []): array
+    protected function apiDelete(string $url, array $params = []): array
     {
         $paramsString = count($params) > 0 ? '?' . http_build_query($params, '', '&') : '';
 
@@ -99,7 +98,7 @@ abstract class BaseApi
         return [$status, $result, $headers];
     }
 
-    protected function apiPost($url, $params = []): array
+    protected function apiPost(string $url, array $params = []): array
     {
         $streamContext = $this->getStreamContext('POST', json_encode($params, JSON_THROW_ON_ERROR));
         $result        = file_get_contents($url, false, $streamContext);
@@ -114,10 +113,10 @@ abstract class BaseApi
 
         $headers = $this->extractListOfHeaders($http_response_header);
 
-        return [$status, $result, $headers];
+        return [(int)$status, $result, $headers];
     }
 
-    protected function apiPut($url, $params = []): array
+    protected function apiPut(string $url, array $params = []): array
     {
         $streamContext = $this->getStreamContext('PUT', json_encode($params, JSON_THROW_ON_ERROR));
         $result        = file_get_contents($url, false, $streamContext);

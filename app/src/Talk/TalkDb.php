@@ -12,7 +12,7 @@ class TalkDb extends BaseDb
         $this->keyName = 'talks';
     }
 
-    public function getUriFor($slug, $eventUri)
+    public function getUriFor(string $slug, string $eventUri)
     {
         $data = $this->cache->loadByKeys($this->keyName, [
             'event_uri' => $eventUri,
@@ -26,7 +26,7 @@ class TalkDb extends BaseDb
         return null;
     }
 
-    public function getSlugFor($talkUri)
+    public function getSlugFor(string $talkUri)
     {
         $talk = $this->load('uri', $talkUri);
         if ($talk) {

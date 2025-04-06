@@ -12,7 +12,7 @@ class ApikeyEntity extends BaseEntity
         return substr($this->data->token_uri, strrpos($this->data->token_uri, '/') + 1);
     }
 
-    public function getApplicationName()
+    public function getApplicationName(): string
     {
         return $this->data->application;
     }
@@ -28,7 +28,7 @@ class ApikeyEntity extends BaseEntity
     }
 
 
-    public function getApiUri()
+    public function getApiUri(): string
     {
         return $this->data->token_uri;
     }

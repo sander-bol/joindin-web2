@@ -12,17 +12,17 @@ class ClientEntity extends BaseEntity
         return substr($this->data->client_uri, strrpos($this->data->client_uri, '/') + 1);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->data->application;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->data->description;
     }
 
-    public function getConsumerKey()
+    public function getConsumerKey(): string
     {
         return $this->data->consumer_key;
     }
@@ -32,7 +32,7 @@ class ClientEntity extends BaseEntity
         return new \DateTimeImmutable($this->data->created_date);
     }
 
-    public function getCallbackUrl()
+    public function getCallbackUrl(): string
     {
         return $this->data->callback_url;
     }
@@ -42,16 +42,12 @@ class ClientEntity extends BaseEntity
         return isset($this->data->consumer_secret);
     }
 
-    public function getConsumerSecret()
+    public function getConsumerSecret(): string
     {
-        if (! $this->hasConsumerSecret()) {
-            return '';
-        }
-
-        return $this->data->consumer_secret;
+        return $this->hasConsumerSecret() ? $this->data->consumer_secret : '';
     }
 
-    public function getApiUri()
+    public function getApiUri(): string
     {
         return $this->data->client_uri;
     }

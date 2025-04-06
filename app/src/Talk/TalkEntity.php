@@ -13,11 +13,11 @@ class TalkEntity extends BaseEntity implements ArrayAccess
      *
      * @param  string  $userUri
      */
-    public function isSpeaker($userUri): bool
+    public function isSpeaker(string $userUri): bool
     {
         $speakers = $this->getSpeakers();
         foreach ($speakers as $speaker) {
-            if (isset($speaker->speaker_uri) && $speaker->speaker_uri == $userUri) {
+            if (isset($speaker->speaker_uri) && $speaker->speaker_uri === $userUri) {
                 return true;
             }
         }
@@ -25,12 +25,12 @@ class TalkEntity extends BaseEntity implements ArrayAccess
         return false;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->data->talk_title;
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->data->type;
     }
@@ -39,43 +39,42 @@ class TalkEntity extends BaseEntity implements ArrayAccess
      * Return the event type class name
      * The type class is all lower case with no spaces
      */
-    public function getTypeClass()
+    public function getTypeClass(): string
     {
-        return 'talk-type-'.str_replace(' ', '', strtolower($this->data->type));
+        return 'talk-type-' . str_replace(' ', '', strtolower($this->data->type));
     }
 
-    public function getAbsoluteWebsiteUrl()
+    public function getAbsoluteWebsiteUrl(): string
     {
         return $this->data->website_uri;
     }
 
-    public function getStartDateTime(): \DateTime
+    public function getStartDateTime(): \DateTimeImmutable
     {
-        return new DateTime($this->data->start_date);
+        return new \DateTimeImmutable($this->data->start_date);
     }
 
-    public function getEndDateTime(): ?\DateTime
+    public function getEndDateTime(): ?\DateTimeImmutable
     {
         if (!$this->data->duration) {
             return null;
         }
 
-        $start_time = $this->getStartDateTime();
-
-        return $start_time->add(new DateInterval('PT'.$this->data->duration.'M'));
+        return $this->getStartDateTime()
+                    ->add(new DateInterval('PT' . $this->data->duration . 'M'));
     }
 
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->data->duration;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->data->talk_description;
     }
 
-    public function getSpeakers()
+    public function getSpeakers(): array
     {
         return $this->data->speakers;
     }
@@ -85,7 +84,7 @@ class TalkEntity extends BaseEntity implements ArrayAccess
         return $this->data->tracks;
     }
 
-    public function getApiUri($verbose = false)
+    public function getApiUri($verbose = false): string
     {
         if ($verbose) {
             return $this->data->verbose_uri;
@@ -94,17 +93,17 @@ class TalkEntity extends BaseEntity implements ArrayAccess
         return $this->data->uri;
     }
 
-    public function getEventUri()
+    public function getEventUri(): string
     {
         return $this->data->event_uri;
     }
 
-    public function getAverageRating()
+    public function getAverageRating(): int
     {
         return $this->data->average_rating;
     }
 
-    public function getUserRating()
+    public function getUserRating(): int
     {
         if (! isset($this->data->user_rating)) {
             return false;
@@ -113,17 +112,17 @@ class TalkEntity extends BaseEntity implements ArrayAccess
         return $this->data->user_rating;
     }
 
-    public function getUrlFriendlyTalkTitle()
+    public function getUrlFriendlyTalkTitle(): string
     {
         return $this->data->url_friendly_talk_title;
     }
 
-    public function getSpeakersUri()
+    public function getSpeakersUri(): string
     {
         return $this->data->speakers_uri;
     }
 
-    public function getStub()
+    public function getStub(): string
     {
         return $this->data->stub;
     }
@@ -133,16 +132,12 @@ class TalkEntity extends BaseEntity implements ArrayAccess
         return $this->data->comments_enabled;
     }
 
-    public function getCommentsUri()
+    public function getCommentsUri(): ?string
     {
-        if (!isset($this->data->comments_uri)) {
-            return null;
-        }
-
-        return $this->data->comments_uri;
+        return $this->data->comments_uri ?? null;
     }
 
-    public function getSlidesLink()
+    public function getSlidesLink(): ?string
     {
         return $this->data->slides_link;
     }
@@ -152,7 +147,7 @@ class TalkEntity extends BaseEntity implements ArrayAccess
         return $this->data->language;
     }
 
-    public function getCommentCount()
+    public function getCommentCount(): int
     {
         return $this->data->comment_count;
     }
@@ -162,17 +157,17 @@ class TalkEntity extends BaseEntity implements ArrayAccess
         return $this->data->starred;
     }
 
-    public function getStarredUri()
+    public function getStarredUri(): string
     {
         return $this->data->starred_uri;
     }
 
-    public function getTracksUri()
+    public function getTracksUri(): string
     {
         return $this->data->tracks_uri;
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data->$offset);
     }

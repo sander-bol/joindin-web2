@@ -22,7 +22,7 @@ class EventCommentReportEntity extends BaseCommentReportingEntity
         }
     }
 
-    public function getComment()
+    public function getComment(): EventCommentEntity
     {
         return $this->comment;
     }

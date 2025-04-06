@@ -1,12 +1,17 @@
 <?php
-namespace Application;
 
-use Application\BaseApi;
+namespace Application;
 
 class ContactApi extends BaseApi
 {
-    public function contact($name, $email, $subject, $comment, $clientId, $clientSecret): bool
-    {
+    public function contact(
+        string $name,
+        string $email,
+        string $subject,
+        string $comment,
+        string $clientId,
+        string $clientSecret
+    ): bool {
         $url    = $this->baseApiUrl . '/v2.1/contact';
         $params = [
             'client_id'     => $clientId,
@@ -19,7 +24,7 @@ class ContactApi extends BaseApi
 
         [$status, $result] = $this->apiPost($url, $params);
 
-        if ($status == 202) {
+        if ($status === 202) {
             return true;
         }
 

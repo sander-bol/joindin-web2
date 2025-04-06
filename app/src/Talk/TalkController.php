@@ -43,13 +43,13 @@ class TalkController extends BaseController
         $event    = $eventApi->getByFriendlyUrl($eventSlug);
 
         if (!$event) {
-            return Slim::getInstance()->notFound();
+            Slim::getInstance()->notFound();
         }
 
         $talkApi = $this->getTalkApi();
         $talk    = $talkApi->getTalkBySlug($talkSlug, $event->getUri());
         if (!$talk) {
-            return Slim::getInstance()->notFound();
+            Slim::getInstance()->notFound();
         }
 
         $comments = $talkApi->getComments($talk->getCommentsUri(), true, 0);
@@ -322,9 +322,11 @@ class TalkController extends BaseController
 
     public function quick($talkStub)
     {
+        /** @var $talkDb TalkDb**/
         $talkDb = $this->application->container->get(TalkDb::class);
         $talk   = $talkDb->load('stub', $talkStub);
 
+        /** @var $eventDb EventDb**/
         $eventDb = $this->application->container->get(EventDb::class);
         $event   = $eventDb->load('uri', $talk['event_uri']);
         if (!$event) {
@@ -342,6 +344,7 @@ class TalkController extends BaseController
 
     public function quickById($talkId)
     {
+        /** @var $eventDb EventDb**/
         $eventDb = $this->application->container->get(EventDb::class);
 
         $talkApi = $this->getTalkApi();

@@ -14,7 +14,7 @@ class AuthApi extends BaseApi
      * @param  string $clientSecret OAuth client secret
      * @return mixed            stdClass of token and user's URI
      */
-    public function login($username, $password, $clientId, $clientSecret)
+    public function login(string $username, string $password, string $clientId, string $clientSecret)
     {
         $url    = $this->baseApiUrl . '/v2.1/token';
         $params = [

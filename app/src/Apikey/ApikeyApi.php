@@ -8,7 +8,7 @@ class ApikeyApi extends BaseApi
     /**
      * Get all tokens associated with the current user
      */
-    public function getCollection($queryParams): array
+    public function getCollection(array $queryParams): array
     {
         $token_uri = $this->baseApiUrl . '/v2.1/token';
 
@@ -32,7 +32,7 @@ class ApikeyApi extends BaseApi
     /**
      * Get a specified API-key associated with the current user
      */
-    public function getById($id, $queryParams = ['verbose' => 'yes']): \Apikey\ApikeyEntity
+    public function getById(string $id, array $queryParams = ['verbose' => 'yes']): \Apikey\ApikeyEntity
     {
         $tokens_uri = $this->baseApiUrl . '/v2.1/token/' . urlencode($id);
 
@@ -55,7 +55,7 @@ class ApikeyApi extends BaseApi
     {
         [$status, $result, $headers] = $this->apiDelete($tokenUri);
 
-        if ($status != 204) {
+        if ($status !== 204) {
             $decoded = json_decode($result);
             if (is_array($decoded)) {
                 $result = current($decoded);
